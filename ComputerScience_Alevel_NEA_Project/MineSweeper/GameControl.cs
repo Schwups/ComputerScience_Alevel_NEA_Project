@@ -4,17 +4,19 @@ using System.Text;
 
 namespace MineSweeperGame
 {
-    abstract class GameControl
+    interface IGameControl
     {
-        public bool flaggingMode { get; protected set; }
+        public bool GetFlaggingMode();
+        public bool ToggleFlaggingMode();
         public abstract Position SelectTile();
         public abstract void DisplayGrid(GridTile[,] grid);
         public abstract void DisplayResultsScreen(GameState endState, long timeTaken);
     }
 
-    class CommandLineInterface : GameControl
+    class CommandLineInterface : IGameControl
     {
-        public override void DisplayGrid(GridTile[,] grid)
+        private bool flaggingMode;
+        public void DisplayGrid(GridTile[,] grid)
         {
             for (int y = 0; y < grid.GetLength(1); y++)
             {
@@ -38,11 +40,22 @@ namespace MineSweeperGame
             Console.Write("\n");
         }
 
-        public override void DisplayResultsScreen(GameState endState, long timeTaken)
+        public void DisplayResultsScreen(GameState endState, long timeTaken)
         {
             throw new NotImplementedException();
         }
-        public override Position SelectTile()
+
+        public bool GetFlaggingMode()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Position SelectTile()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ToggleFlaggingMode()
         {
             throw new NotImplementedException();
         }

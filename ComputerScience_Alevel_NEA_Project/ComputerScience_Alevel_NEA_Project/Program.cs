@@ -1,4 +1,5 @@
 ﻿using System;
+using Mine
 
 namespace ComputerScience_Alevel_NEA_Project
 {
@@ -6,6 +7,7 @@ namespace ComputerScience_Alevel_NEA_Project
     {
         static void Main(string[] args)
         {
+            
         }
     }
 }

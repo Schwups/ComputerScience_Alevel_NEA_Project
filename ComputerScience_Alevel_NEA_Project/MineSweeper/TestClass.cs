@@ -16,7 +16,7 @@ namespace MineSweeperGame
             long slowest = -1;
             long total = 0;
             long timeTaken = 0;
-            GameControl gc = new CommandLineInterface();
+            IGameControl gc = new CommandLineInterface();
             GridTile[,] grid;
 
             for (int i = 0; i < noOfRuns; i++)
@@ -26,13 +26,12 @@ namespace MineSweeperGame
                 grid = null;
                 sw.Start();
                 grid = GridGenerator.GenerateGrid(16, 16, 40, null);
-                //Thread.Sleep(100);
+                Thread.Sleep(100);
                 sw.Stop();
 
                 gc.DisplayGrid(grid);
-                //timeTaken = sw.ElapsedMilliseconds - 100;
-                timeTaken = sw.ElapsedTicks;
-                Console.Write($"grid generation {i + 1} completed with time: {timeTaken}Ticks\n\n");
+                timeTaken = sw.ElapsedMilliseconds - 100;
+                Console.Write($"grid generation {i + 1} completed with time: {timeTaken}ms\n\n");
                 if (fastest == -1 || timeTaken < fastest)
                 {
                     fastest = timeTaken;
@@ -44,7 +43,7 @@ namespace MineSweeperGame
                 total = total + timeTaken;
             }
             long mean = total / noOfRuns;
-            Console.Write($"Fastest:{fastest}Ticks\nSlowest:{slowest}Ticks\naverage:{mean}Ticks");
+            Console.Write($"Fastest:{fastest}ms\nSlowest:{slowest}ms\naverage:{mean}ms");
         }
     }
 }
