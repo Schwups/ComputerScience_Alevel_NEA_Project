@@ -2,19 +2,23 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MineSweeperGame
+namespace Minesweeper
 {
-    struct GridTile
+    public struct GridTile
     {
         public bool isUncovered;
         public bool isFlagged;
         public bool hasMine;
         public byte adjacentMineCount;
     }
-    class GridGenerator
+    public class GridGenerator
     {
-        static public GridTile[,] GenerateGrid(short width, short height, int mineCount, string gameSeed)
+        static public GridTile[,] GenerateGrid(GameParameters gameParameters)
         {
+            short width = gameParameters.width;
+            short height = gameParameters.height;
+            int mineCount = gameParameters.mineCount;
+            string gameSeed = gameParameters.gameSeed;
             //Ensure valid size and mine number parameters are entered
             if (width <= 0 || height <= 0)
             {
@@ -23,6 +27,10 @@ namespace MineSweeperGame
             if (mineCount <= 0)
             {
                 throw new ArgumentException($"invalid mineCount:{mineCount}, must be greater than zero");
+            }
+            if (mineCount > width*height)
+            {
+                throw new ArgumentException($"invalid mineCount:{mineCount}, must be less than total tile count");
             }
 
             //Set generator seed if entered or create random seed if none is supplied
@@ -92,7 +100,8 @@ namespace MineSweeperGame
                     {
                         int xNew = pos.xPosition + xOffset;
                         int yNew = pos.yPosition + yOffset;
-                        if (xNew >= 0 && xNew < grid.GetLength(0) && yNew >= 0 && yNew < grid.GetLength(1))
+                        if (xNew >= 0 && xNew < grid.GetLength(0) && 
+                            yNew >= 0 && yNew < grid.GetLength(1))
                         {
                             grid[xNew, yNew].adjacentMineCount++;
                         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using Mine
 
 namespace ComputerScience_Alevel_NEA_Project
 {
