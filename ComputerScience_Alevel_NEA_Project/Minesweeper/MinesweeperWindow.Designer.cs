@@ -1,4 +1,4 @@
-﻿namespace MinesweeperWindow
+﻿namespace MinesweeperOutput
 {
     partial class MinesweeperWindow
     {
@@ -31,7 +31,7 @@
             this.gridControls = new System.Windows.Forms.TableLayoutPanel();
             this.flaggingModeCheckBox = new System.Windows.Forms.CheckBox();
             this.mineCounter = new System.Windows.Forms.Label();
-            this.clock = new System.Windows.Forms.Label();
+            this.clockDisplay = new System.Windows.Forms.Label();
             this.minesLeftLabel = new System.Windows.Forms.Label();
             this.timeLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -67,45 +67,42 @@
             // mineCounter
             // 
             this.mineCounter.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.mineCounter.AutoSize = true;
             this.mineCounter.Location = new System.Drawing.Point(50, 57);
             this.mineCounter.Margin = new System.Windows.Forms.Padding(3);
             this.mineCounter.Name = "mineCounter";
-            this.mineCounter.Size = new System.Drawing.Size(84, 14);
+            this.mineCounter.Size = new System.Drawing.Size(85, 14);
             this.mineCounter.TabIndex = 10;
             this.mineCounter.Text = "mineCounter";
-            this.mineCounter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mineCounter.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // clock
+            // clockDisplay
             // 
-            this.clock.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.clock.AutoSize = true;
-            this.clock.Location = new System.Drawing.Point(198, 57);
-            this.clock.Name = "clock";
-            this.clock.Size = new System.Drawing.Size(42, 14);
-            this.clock.TabIndex = 11;
-            this.clock.Text = "Clock";
-            this.clock.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.clockDisplay.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.clockDisplay.Location = new System.Drawing.Point(198, 57);
+            this.clockDisplay.Name = "clockDisplay";
+            this.clockDisplay.Size = new System.Drawing.Size(50, 14);
+            this.clockDisplay.TabIndex = 11;
+            this.clockDisplay.Text = "Clock";
+            this.clockDisplay.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // minesLeftLabel
             // 
             this.minesLeftLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.minesLeftLabel.AutoSize = true;
             this.minesLeftLabel.Location = new System.Drawing.Point(50, 36);
             this.minesLeftLabel.Name = "minesLeftLabel";
-            this.minesLeftLabel.Size = new System.Drawing.Size(84, 14);
+            this.minesLeftLabel.Size = new System.Drawing.Size(85, 14);
             this.minesLeftLabel.TabIndex = 12;
             this.minesLeftLabel.Text = "Mines left:";
             // 
             // timeLabel
             // 
             this.timeLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.timeLabel.AutoSize = true;
             this.timeLabel.Location = new System.Drawing.Point(198, 36);
             this.timeLabel.Name = "timeLabel";
-            this.timeLabel.Size = new System.Drawing.Size(42, 14);
+            this.timeLabel.Size = new System.Drawing.Size(50, 14);
             this.timeLabel.TabIndex = 13;
             this.timeLabel.Text = "Time:";
+            this.timeLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // MinesweeperWindow
             // 
@@ -114,7 +111,7 @@
             this.ClientSize = new System.Drawing.Size(434, 200);
             this.Controls.Add(this.timeLabel);
             this.Controls.Add(this.minesLeftLabel);
-            this.Controls.Add(this.clock);
+            this.Controls.Add(this.clockDisplay);
             this.Controls.Add(this.mineCounter);
             this.Controls.Add(this.flaggingModeCheckBox);
             this.Controls.Add(this.gridControls);
@@ -132,7 +129,7 @@
         private System.Windows.Forms.TableLayoutPanel gridControls;
         private System.Windows.Forms.CheckBox flaggingModeCheckBox;
         private System.Windows.Forms.Label mineCounter;
-        private System.Windows.Forms.Label clock;
+        private System.Windows.Forms.Label clockDisplay;
         private System.Windows.Forms.Label minesLeftLabel;
         private System.Windows.Forms.Label timeLabel;
     }

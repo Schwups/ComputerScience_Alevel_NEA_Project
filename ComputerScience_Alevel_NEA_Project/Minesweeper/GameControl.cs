@@ -10,7 +10,9 @@ namespace Minesweeper
         bool GetFlaggingMode();
         void ToggleFlaggingMode();
         void DisplayGrid(GridTile[,] grid);
-        void DisplayResultsScreen(GameState endState, long timeTaken);
+        void DisplayResultsScreen(GameState endState, long timeTaken, Position lastClear);
+        int GetMinesLeft();
+        void SetMinesLeft(int mines);
     }
 
     public class AiControlInterface : IGameControl
@@ -37,12 +39,22 @@ namespace Minesweeper
             }
         }
 
-        public void DisplayResultsScreen(GameState endState, long timeTaken)
+        public void DisplayResultsScreen(GameState endState, long timeTaken, Position lastClear)
         {
             throw new NotImplementedException();
         }
 
         public bool GetFlaggingMode()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetMinesLeft()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetMinesLeft(int mines)
         {
             throw new NotImplementedException();
         }

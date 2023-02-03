@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MinesweeperWindow.Properties {
+namespace MinesweeperOutput.Properties {
     using System;
     
     

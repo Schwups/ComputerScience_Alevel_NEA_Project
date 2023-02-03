@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MinesweeperWindow {
+namespace MinesweeperOutput {
     using System;
     
     

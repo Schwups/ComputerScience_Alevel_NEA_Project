@@ -16,6 +16,7 @@ namespace Minesweeper
         private Stopwatch stopwatch;
         private bool hitMine;
         private bool gridClear;
+        private Position lastSelectedTile;
 
         public MinesweeperGameInstance(IGameControl gameController, GameParameters gameParameters)
         {
@@ -27,20 +28,31 @@ namespace Minesweeper
 
         public GameState GetGameState() { return gameState; }
         public long GetClockMs() { return stopwatch.ElapsedMilliseconds; }
+        public Position GetLastSelectedTile() { return lastSelectedTile; }
 
         public void StartGame()
         {
-            stopwatch.Start();
             hitMine = false;
             gameState = GameState.Running;
+            stopwatch.Start();
             gameController.DisplayGrid(grid);
         }
 
         public void TakeTurn(Position selectedTile)
         {
+            lastSelectedTile = selectedTile;
             if (gameController.GetFlaggingMode())
             {
-                grid[selectedTile.xPosition, selectedTile.yPosition].isFlagged = !grid[selectedTile.xPosition, selectedTile.yPosition].isFlagged;
+                if (grid[selectedTile.xPosition, selectedTile.yPosition].isFlagged)
+                {
+                    grid[selectedTile.xPosition, selectedTile.yPosition].isFlagged = false;
+                    gameController.SetMinesLeft(gameController.GetMinesLeft() + 1);
+                }
+                else
+                {
+                    grid[selectedTile.xPosition, selectedTile.yPosition].isFlagged = true;
+                    gameController.SetMinesLeft(gameController.GetMinesLeft() - 1);
+                }
             }
             else
             {

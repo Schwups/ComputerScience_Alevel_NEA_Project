@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MinesweeperWindow.Properties {
+namespace MinesweeperOutput.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
