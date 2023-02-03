@@ -19,7 +19,7 @@ namespace Minesweeper
             short height = gameParameters.height;
             int mineCount = gameParameters.mineCount;
             string gameSeed = gameParameters.gameSeed;
-            //Ensure valid size and mine number parameters are entered
+            // Ensure valid size and mine number parameters are entered
             if (width <= 0 || height <= 0)
             {
                 throw new ArgumentException($"Grid dimensions {width} by {height} are invalid, both values must be greater than zero");
@@ -33,7 +33,7 @@ namespace Minesweeper
                 throw new ArgumentException($"invalid mineCount:{mineCount}, must be less than total tile count");
             }
 
-            //Set generator seed if entered or create random seed if none is supplied
+            // Set generator seed if entered or create random seed if none is supplied
             int generatorSeed;
             if (!string.IsNullOrEmpty(gameSeed))
             {
@@ -60,7 +60,7 @@ namespace Minesweeper
 
             void HideGrid()
             {
-                //Sets all tiles in grid to hidden
+                // Sets all tiles in grid to hidden
                 for (int y = 0; y < grid.GetLength(1); y++)
                 {
                     for (int x = 0; x < grid.GetLength(0); x++)
@@ -71,7 +71,7 @@ namespace Minesweeper
             }
             void AddMines()
             {
-                //Add all mines to grid
+                // Add all mines to grid
                 for (int i = 0; i < mineCount; i++)
                 {
                     bool validPosition = false;
@@ -93,7 +93,7 @@ namespace Minesweeper
             }
             void IncrementAdjacentMineCount(Position pos)
             {
-                //Itterates through all tiles within a 3x3 grid centered on the entered position and increments the adjacentMineCount variable
+                // Itterates through all tiles within a 3x3 grid centered on the entered position and increments the adjacentMineCount variable
                 for (int yOffset = -1; yOffset <= 1; yOffset++)
                 {
                     for (int xOffset = -1; xOffset <= 1; xOffset++)

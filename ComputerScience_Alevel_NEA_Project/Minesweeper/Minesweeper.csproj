@@ -106,9 +106,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\HiddenTile.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\HiddenTile.bmp" />
   </ItemGroup>
   <ItemGroup>

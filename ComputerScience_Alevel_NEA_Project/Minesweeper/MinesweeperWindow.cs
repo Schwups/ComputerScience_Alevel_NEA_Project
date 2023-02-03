@@ -33,13 +33,13 @@ namespace MinesweeperOutput
         {
             base.OnLoad(e);
 
+            // Sets default form width and height
             this.Width = (width * (buttonSize + 1)) + 100;
             if (this.Width < 450) { this.Width = 450; }
             this.Height = (height * (buttonSize + 1)) + 175;
             if (this.Height < 175) { this.Height = 175; }
 
-            Debug.Write($"{Width}{Height}\n");
-
+            // Set up code for the button grid
             gridControls.Location = new Point(50, 100);
             gridControls.ColumnCount = width;
             gridControls.RowCount = height;
@@ -76,10 +76,13 @@ namespace MinesweeperOutput
             {
                 c.Click += new EventHandler(this.GridTile_Click);
             }
+            // I dont like using windows forms
 
             minesLeft = mineCount;
             mineCounter.Text = minesLeft.ToString();
 
+            // Set up of timer to update clock every 500ms 
+            // (i chose 500ms instead of 1000ms to ensure the clock dosent miss a second due to rounding from ms to seconds)
             clockDisplay.Text = 0.ToString();
             timer = new Timer
             {
@@ -87,6 +90,7 @@ namespace MinesweeperOutput
             };
             timer.Tick += new EventHandler(Timer_Tick);
 
+            // Creation of game instance and starting timer and game
             gameInstance = new MinesweeperGameInstance(this, new GameParameters(width, height, mineCount, ""));
             timer.Start();
             this.Show();
@@ -181,7 +185,7 @@ namespace MinesweeperOutput
             new GameOverDialogue(endState, timeTaken, lastClear).ShowDialog();
             this.Close();
         }
-        private void SendInput(Position selectedPosition)
+        public void TakeTurn(Position selectedPosition)
         {
             gameInstance.TakeTurn(selectedPosition);
 
@@ -190,16 +194,16 @@ namespace MinesweeperOutput
                 DisplayResultsScreen(gameInstance.GetGameState(), gameInstance.GetClockMs(), gameInstance.GetLastSelectedTile());
             }
         }
-        private void GridTile_Click(object sender, EventArgs e)
+        private void GridTile_Click(object sender, EventArgs e) // Event handler for click events on button grid
         {
             Position clickedPosition = new Position()
             {
                 xPosition = (short)gridControls.GetColumn((Control)sender),
                 yPosition = (short)gridControls.GetRow((Control)sender)
             };
-            SendInput(clickedPosition);
+            TakeTurn(clickedPosition);
         }
-        private void Timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e) // Event handler for timer
         {
             clockDisplay.Text = (gameInstance.GetClockMs() / 1000).ToString();
         }
@@ -207,7 +211,7 @@ namespace MinesweeperOutput
         {
             flaggingMode = flaggingModeCheckBox.Checked;
         }
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) // Event handler for keypress events
         {
             if (keyData == Keys.Space)
             {
