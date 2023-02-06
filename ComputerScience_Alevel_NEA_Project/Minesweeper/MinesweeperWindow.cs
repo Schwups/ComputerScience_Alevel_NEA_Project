@@ -17,13 +17,15 @@ namespace MinesweeperOutput
         // Temp variables
         const short width = 16;
         const short height = 16;
-        const int mineCount = 1;
+        const int mineCount = 40;
         const int buttonSize = 25;
 
         private bool flaggingMode;
         private MinesweeperGameInstance gameInstance;
         private int minesLeft;
         private Timer timer;
+        public Difficulty gameDifficulty { get; private set; }
+        public long endTime { get; private set; }
 
         public MinesweeperWindow()
         {
@@ -182,7 +184,10 @@ namespace MinesweeperOutput
         }
         public void DisplayResultsScreen(GameState endState, long timeTaken, Position lastClear)
         {
-            new GameOverDialogue(endState, timeTaken, lastClear).ShowDialog();
+            endTime = timeTaken;
+            GameOverDialogue gameOver = new GameOverDialogue(endState, timeTaken, lastClear);
+            gameOver.ShowDialog();
+            gameOver.Dispose();
             this.Close();
         }
         public void TakeTurn(Position selectedPosition)

@@ -82,6 +82,8 @@
             this.Controls.Add(this.endTimeLabel);
             this.Controls.Add(this.endMessage);
             this.Name = "GameOverDialogue";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GameOver";
             this.Load += new System.EventHandler(this.GameOverDialogue_Load);
             this.ResumeLayout(false);

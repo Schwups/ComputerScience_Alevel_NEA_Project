@@ -29,6 +29,13 @@ namespace Minesweeper
         Lost = 1,
         Won = 2
     }
+    public enum Difficulty
+    {
+        Custom = 0,
+        Beginner = 1,
+        Intermediate = 2,
+        Expert = 3
+    }
 }
 
 // 2d array itterator
