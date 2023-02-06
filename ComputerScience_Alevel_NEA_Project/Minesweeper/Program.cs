@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MainMenu;
+using Output.MainMenu;
 
-namespace MinesweeperOutput
+namespace ComputerScience_Alevel_NEA_Project
 {
     static class Program
     {

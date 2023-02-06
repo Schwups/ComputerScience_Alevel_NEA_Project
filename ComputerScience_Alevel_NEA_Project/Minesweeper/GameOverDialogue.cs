@@ -1,4 +1,5 @@
 ﻿using Minesweeper;
+using SupportComponents;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,43 +10,46 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MinesweeperOutput
+namespace Output
 {
-    public partial class GameOverDialogue : Form
+    namespace MinesweeperOutput
     {
-        private GameState endState;
-        private long timeTaken;
-        private Position lastTileSelected;
-        public GameOverDialogue(GameState endState, long timeTaken, Position lastTileSelected)
+        public partial class GameOverDialogue : Form
         {
-            InitializeComponent();
-            this.endState = endState;
-            this.timeTaken = timeTaken;
-            this.lastTileSelected = lastTileSelected;
-        }
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            if (endState == GameState.Won)
+            private GameState endState;
+            private long timeTaken;
+            private Position lastTileSelected;
+            public GameOverDialogue(GameState endState, long timeTaken, Position lastTileSelected)
             {
-                endMessage.Text = "Congratulations!\nYou cleared all the mines!";
+                InitializeComponent();
+                this.endState = endState;
+                this.timeTaken = timeTaken;
+                this.lastTileSelected = lastTileSelected;
             }
-            else
+            protected override void OnLoad(EventArgs e)
             {
-                endMessage.Text = $"You fucking suck\nYou hit a mine at tile ({lastTileSelected.xPosition + 1},{lastTileSelected.yPosition + 1})";
+                base.OnLoad(e);
+                if (endState == GameState.Won)
+                {
+                    endMessage.Text = "Congratulations!\nYou cleared all the mines!";
+                }
+                else
+                {
+                    endMessage.Text = $"You fucking suck\nYou hit a mine at tile ({lastTileSelected.xPosition + 1},{lastTileSelected.yPosition + 1})";
+                }
+
+                endTime.Text = (timeTaken / 1000).ToString() + " Seconds.";
             }
 
-            endTime.Text = (timeTaken / 1000).ToString() + " Seconds.";
-        }
+            private void contineButton_Click(object sender, EventArgs e)
+            {
+                this.Close();
+            }
 
-        private void contineButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+            private void GameOverDialogue_Load(object sender, EventArgs e)
+            {
 
-        private void GameOverDialogue_Load(object sender, EventArgs e)
-        {
-
+            }
         }
     }
 }

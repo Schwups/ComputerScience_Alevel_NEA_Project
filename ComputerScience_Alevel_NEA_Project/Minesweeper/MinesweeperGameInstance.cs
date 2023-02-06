@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SupportComponents;
+using System;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,14 @@ namespace Minesweeper
             this.gameController = gameController;
             this.gameParameters = gameParameters;
             stopwatch = new Stopwatch();
-            grid = GridGenerator.GenerateGrid(gameParameters);
+            try
+            {
+                grid = GridGenerator.GenerateGrid(gameParameters);
+            }
+            catch (ArgumentException ex)
+            {
+                throw ex;
+            }
         }
 
         public GameState GetGameState() { return gameState; }
@@ -102,9 +110,11 @@ namespace Minesweeper
                 {
                     for (int x = -1; x <= 1; x++)
                     {
-                        ClearTile(new Position(){ 
+                        ClearTile(new Position()
+                        { 
                                         xPosition = (short)(position.xPosition + x), 
-                                        yPosition = (short)(position.yPosition + y)});
+                                        yPosition = (short)(position.yPosition + y)
+                        });
                     }
                 }
             }

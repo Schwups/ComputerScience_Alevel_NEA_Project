@@ -1,33 +1,35 @@
-﻿namespace MinesweeperOutput
+﻿namespace Output
 {
-    partial class GameOverDialogue
+    namespace MinesweeperOutput
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
+        partial class GameOverDialogue
         {
-            if (disposing && (components != null))
+            /// <summary>
+            /// Required designer variable.
+            /// </summary>
+            private System.ComponentModel.IContainer components = null;
+
+            /// <summary>
+            /// Clean up any resources being used.
+            /// </summary>
+            /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+            protected override void Dispose(bool disposing)
             {
-                components.Dispose();
+                if (disposing && (components != null))
+                {
+                    components.Dispose();
+                }
+                base.Dispose(disposing);
             }
-            base.Dispose(disposing);
-        }
 
-        #region Windows Form Designer generated code
+            #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
+            /// <summary>
+            /// Required method for Designer support - do not modify
+            /// the contents of this method with the code editor.
+            /// </summary>
+            private void InitializeComponent()
+            {
             this.endMessage = new System.Windows.Forms.Label();
             this.endTimeLabel = new System.Windows.Forms.Label();
             this.endTime = new System.Windows.Forms.Label();
@@ -83,19 +85,20 @@
             this.Controls.Add(this.endMessage);
             this.Name = "GameOverDialogue";
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "GameOver";
             this.Load += new System.EventHandler(this.GameOverDialogue_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
+            }
+
+            #endregion
+
+            private System.Windows.Forms.Label endMessage;
+            private System.Windows.Forms.Label endTimeLabel;
+            private System.Windows.Forms.Label endTime;
+            private System.Windows.Forms.Button contineButton;
         }
-
-        #endregion
-
-        private System.Windows.Forms.Label endMessage;
-        private System.Windows.Forms.Label endTimeLabel;
-        private System.Windows.Forms.Label endTime;
-        private System.Windows.Forms.Button contineButton;
     }
 }

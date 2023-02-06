@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Minesweeper
+namespace SupportComponents
 {
     public struct GameParameters
     {
@@ -10,12 +10,14 @@ namespace Minesweeper
         public short height;
         public int mineCount;
         public string gameSeed;
-        public GameParameters(short width, short height, int mineCount, string gameSeed)
+        public Difficulty gameDifficulty;
+        public GameParameters(short width, short height, int mineCount, string gameSeed, Difficulty gameDifficulty)
         {
             this.width = width;
             this.height = height;
             this.mineCount = mineCount;
             this.gameSeed = gameSeed;
+            this.gameDifficulty = gameDifficulty;
         }
     }
     public struct Position
