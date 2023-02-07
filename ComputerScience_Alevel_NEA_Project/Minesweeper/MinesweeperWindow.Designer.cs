@@ -31,7 +31,6 @@
             private void InitializeComponent()
             {
             this.gridControls = new System.Windows.Forms.TableLayoutPanel();
-            this.flaggingModeCheckBox = new System.Windows.Forms.CheckBox();
             this.mineCounter = new System.Windows.Forms.Label();
             this.clockDisplay = new System.Windows.Forms.Label();
             this.minesLeftLabel = new System.Windows.Forms.Label();
@@ -53,18 +52,6 @@
             this.gridControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.gridControls.Size = new System.Drawing.Size(300, 69);
             this.gridControls.TabIndex = 8;
-            // 
-            // flaggingModeCheckBox
-            // 
-            this.flaggingModeCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.flaggingModeCheckBox.AutoSize = true;
-            this.flaggingModeCheckBox.Location = new System.Drawing.Point(294, 56);
-            this.flaggingModeCheckBox.Name = "flaggingModeCheckBox";
-            this.flaggingModeCheckBox.Size = new System.Drawing.Size(117, 18);
-            this.flaggingModeCheckBox.TabIndex = 9;
-            this.flaggingModeCheckBox.Text = "Flagging Mode";
-            this.flaggingModeCheckBox.UseVisualStyleBackColor = true;
-            this.flaggingModeCheckBox.CheckedChanged += new System.EventHandler(this.flaggingModeCheckBox_CheckedChanged);
             // 
             // mineCounter
             // 
@@ -110,27 +97,23 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 200);
+            this.ClientSize = new System.Drawing.Size(284, 200);
             this.Controls.Add(this.timeLabel);
             this.Controls.Add(this.minesLeftLabel);
             this.Controls.Add(this.clockDisplay);
             this.Controls.Add(this.mineCounter);
-            this.Controls.Add(this.flaggingModeCheckBox);
             this.Controls.Add(this.gridControls);
             this.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.KeyPreview = true;
             this.Name = "MinesweeperWindow";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = " ";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
             }
 
             #endregion
             private System.Windows.Forms.TableLayoutPanel gridControls;
-            private System.Windows.Forms.CheckBox flaggingModeCheckBox;
             private System.Windows.Forms.Label mineCounter;
             private System.Windows.Forms.Label clockDisplay;
             private System.Windows.Forms.Label minesLeftLabel;

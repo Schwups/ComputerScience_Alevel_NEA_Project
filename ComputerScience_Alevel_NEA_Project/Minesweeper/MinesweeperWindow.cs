@@ -47,7 +47,7 @@ namespace Output
 
                 // Sets default form width and height
                 this.Width = (gameParameters.width * (buttonSize + 1)) + 100;
-                if (this.Width < 450) { this.Width = 450; }
+                if (this.Width < 300) { this.Width = 300; }
                 this.Height = (gameParameters.height * (buttonSize + 1)) + 175;
                 if (this.Height < 175) { this.Height = 175; }
 
@@ -59,7 +59,7 @@ namespace Output
                 gridControls.Width = gameParameters.width * buttonSize;
                 if (gridControls.Width < 350)
                 {
-                    gridControls.Location = new Point((this.Width - gridControls.Width)/2, 100);
+                    gridControls.Location = new Point((this.Width - gridControls.Width) / 2 - gridControls.Margin.Left, 100); ;
                 }
                 gridControls.Padding = new Padding(0);
                 gridControls.ColumnStyles.Clear();
@@ -90,7 +90,7 @@ namespace Output
                 }
                 foreach (Control c in gridControls.Controls)
                 {
-                    c.Click += new EventHandler(this.GridTile_Click);
+                    c.MouseDown += new MouseEventHandler(this.GridTile_Click);
                 }
                 // I dont like using windows forms
 
@@ -210,8 +210,20 @@ namespace Output
                     DisplayResultsScreen(gameInstance.GetGameState(), gameInstance.GetClockMs(), gameInstance.GetLastSelectedTile());
                 }
             }
-            private void GridTile_Click(object sender, EventArgs e) // Event handler for click events on button grid
+            private void GridTile_Click(object sender, MouseEventArgs e) // Event handler for click events on button grid
             {
+                if (e.Button == MouseButtons.Left)
+                {
+                    flaggingMode = false;
+                }
+                else if (e.Button == MouseButtons.Right)
+                {
+                    flaggingMode = true;
+                }
+                else
+                {
+                    return;
+                }
                 Position clickedPosition = new Position()
                 {
                     xPosition = (short)gridControls.GetColumn((Control)sender),
@@ -223,17 +235,8 @@ namespace Output
             {
                 clockDisplay.Text = (gameInstance.GetClockMs() / 1000).ToString();
             }
-            private void flaggingModeCheckBox_CheckedChanged(object sender, EventArgs e)
-            {
-                flaggingMode = flaggingModeCheckBox.Checked;
-            }
             protected override bool ProcessCmdKey(ref Message msg, Keys keyData) // Event handler for keypress events
             {
-                if (keyData == Keys.Space)
-                {
-                    flaggingModeCheckBox.Checked = !flaggingModeCheckBox.Checked;
-                    return true;
-                }
                 return base.ProcessCmdKey(ref msg, keyData);
             }
         }
