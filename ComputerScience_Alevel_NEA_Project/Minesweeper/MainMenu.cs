@@ -116,25 +116,11 @@ namespace Output
             const byte customMenuHeight = 50;
             private void ShowCustomMenu()
             {
-                //this.Height = this.Height + customMenuHeight;
-                //customWidthLabel.Show();
-                //customWidthUpDown.Show();
-                //customHeightLabel.Show();
-                //customHeightUpDown.Show();
-                //customMineCountLabel.Show();
-                //customMineCountUpDown.Show();
                 this.Height = this.Height + customDifficultySettingsPanel.Height;
                 customDifficultySettingsPanel.Show();
             }
             private void HideCustomMenu()
             {
-                //this.Height = this.Height - customMenuHeight;
-                //customWidthLabel.Hide();
-                //customWidthUpDown.Hide();
-                //customHeightLabel.Hide();
-                //customHeightUpDown.Hide();
-                //customMineCountLabel.Hide();
-                //customMineCountUpDown.Hide();
                 this.Height = this.Height - customDifficultySettingsPanel.Height;
                 customDifficultySettingsPanel.Hide();
             }
