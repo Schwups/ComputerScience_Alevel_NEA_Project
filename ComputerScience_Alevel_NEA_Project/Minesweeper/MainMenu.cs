@@ -91,6 +91,7 @@ namespace Output
                     gameWindow = new MinesweeperWindow(gameParameters);
                     this.Hide();
                     gameWindow.ShowDialog();
+                    gameWindow.Dispose();
                     this.Show();
                 }
                 catch (ArgumentException ex)
