@@ -36,7 +36,6 @@
             this.intermediateRadioButton = new System.Windows.Forms.RadioButton();
             this.expertRadioButton = new System.Windows.Forms.RadioButton();
             this.customRadioButton = new System.Windows.Forms.RadioButton();
-            this.difficultyLabel = new System.Windows.Forms.Label();
             this.customWidthUpDown = new System.Windows.Forms.NumericUpDown();
             this.customWidthLabel = new System.Windows.Forms.Label();
             this.customHeightLabel = new System.Windows.Forms.Label();
@@ -47,17 +46,21 @@
             this.customSeedUpDown = new System.Windows.Forms.NumericUpDown();
             this.exitGameButton = new System.Windows.Forms.Button();
             this.highScoreButton = new System.Windows.Forms.Button();
+            this.difficultyGroupBox = new System.Windows.Forms.GroupBox();
+            this.customDifficultySettingsPanel = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.customWidthUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.customHeightUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.customMineCountUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.customSeedUpDown)).BeginInit();
+            this.difficultyGroupBox.SuspendLayout();
+            this.customDifficultySettingsPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMenuLabel
             // 
             this.mainMenuLabel.AutoSize = true;
             this.mainMenuLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mainMenuLabel.Location = new System.Drawing.Point(105, 34);
+            this.mainMenuLabel.Location = new System.Drawing.Point(108, 34);
             this.mainMenuLabel.Name = "mainMenuLabel";
             this.mainMenuLabel.Size = new System.Drawing.Size(119, 26);
             this.mainMenuLabel.TabIndex = 0;
@@ -66,7 +69,8 @@
             // beginnerRadioButton
             // 
             this.beginnerRadioButton.AutoSize = true;
-            this.beginnerRadioButton.Location = new System.Drawing.Point(122, 111);
+            this.beginnerRadioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.beginnerRadioButton.Location = new System.Drawing.Point(12, 26);
             this.beginnerRadioButton.Name = "beginnerRadioButton";
             this.beginnerRadioButton.Size = new System.Drawing.Size(67, 17);
             this.beginnerRadioButton.TabIndex = 1;
@@ -77,7 +81,7 @@
             // startGameButton
             // 
             this.startGameButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.startGameButton.Location = new System.Drawing.Point(125, 326);
+            this.startGameButton.Location = new System.Drawing.Point(130, 308);
             this.startGameButton.Name = "startGameButton";
             this.startGameButton.Size = new System.Drawing.Size(75, 23);
             this.startGameButton.TabIndex = 2;
@@ -88,7 +92,8 @@
             // intermediateRadioButton
             // 
             this.intermediateRadioButton.AutoSize = true;
-            this.intermediateRadioButton.Location = new System.Drawing.Point(122, 134);
+            this.intermediateRadioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.intermediateRadioButton.Location = new System.Drawing.Point(12, 49);
             this.intermediateRadioButton.Name = "intermediateRadioButton";
             this.intermediateRadioButton.Size = new System.Drawing.Size(83, 17);
             this.intermediateRadioButton.TabIndex = 3;
@@ -99,7 +104,8 @@
             // expertRadioButton
             // 
             this.expertRadioButton.AutoSize = true;
-            this.expertRadioButton.Location = new System.Drawing.Point(122, 157);
+            this.expertRadioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.expertRadioButton.Location = new System.Drawing.Point(12, 72);
             this.expertRadioButton.Name = "expertRadioButton";
             this.expertRadioButton.Size = new System.Drawing.Size(52, 17);
             this.expertRadioButton.TabIndex = 4;
@@ -110,7 +116,8 @@
             // customRadioButton
             // 
             this.customRadioButton.AutoSize = true;
-            this.customRadioButton.Location = new System.Drawing.Point(122, 180);
+            this.customRadioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customRadioButton.Location = new System.Drawing.Point(12, 95);
             this.customRadioButton.Name = "customRadioButton";
             this.customRadioButton.Size = new System.Drawing.Size(60, 17);
             this.customRadioButton.TabIndex = 5;
@@ -119,20 +126,10 @@
             this.customRadioButton.UseVisualStyleBackColor = true;
             this.customRadioButton.CheckedChanged += new System.EventHandler(this.customRadioButton_CheckedChanged);
             // 
-            // difficultyLabel
-            // 
-            this.difficultyLabel.AutoSize = true;
-            this.difficultyLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.difficultyLabel.Location = new System.Drawing.Point(135, 82);
-            this.difficultyLabel.Name = "difficultyLabel";
-            this.difficultyLabel.Size = new System.Drawing.Size(65, 17);
-            this.difficultyLabel.TabIndex = 6;
-            this.difficultyLabel.Text = "Difficulty:";
-            // 
             // customWidthUpDown
             // 
             this.customWidthUpDown.InterceptArrowKeys = false;
-            this.customWidthUpDown.Location = new System.Drawing.Point(39, 232);
+            this.customWidthUpDown.Location = new System.Drawing.Point(6, 19);
             this.customWidthUpDown.Maximum = new decimal(new int[] {
             32767,
             0,
@@ -154,26 +151,26 @@
             // 
             // customWidthLabel
             // 
-            this.customWidthLabel.AutoSize = true;
-            this.customWidthLabel.Location = new System.Drawing.Point(59, 216);
+            this.customWidthLabel.Location = new System.Drawing.Point(6, 3);
             this.customWidthLabel.Name = "customWidthLabel";
-            this.customWidthLabel.Size = new System.Drawing.Size(35, 13);
+            this.customWidthLabel.Size = new System.Drawing.Size(80, 13);
             this.customWidthLabel.TabIndex = 8;
             this.customWidthLabel.Text = "Width";
+            this.customWidthLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // customHeightLabel
             // 
-            this.customHeightLabel.AutoSize = true;
-            this.customHeightLabel.Location = new System.Drawing.Point(142, 216);
+            this.customHeightLabel.Location = new System.Drawing.Point(92, 3);
             this.customHeightLabel.Name = "customHeightLabel";
-            this.customHeightLabel.Size = new System.Drawing.Size(38, 13);
+            this.customHeightLabel.Size = new System.Drawing.Size(80, 13);
             this.customHeightLabel.TabIndex = 9;
             this.customHeightLabel.Text = "Height";
+            this.customHeightLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // customHeightUpDown
             // 
             this.customHeightUpDown.InterceptArrowKeys = false;
-            this.customHeightUpDown.Location = new System.Drawing.Point(125, 232);
+            this.customHeightUpDown.Location = new System.Drawing.Point(92, 19);
             this.customHeightUpDown.Maximum = new decimal(new int[] {
             32767,
             0,
@@ -196,7 +193,7 @@
             // customMineCountUpDown
             // 
             this.customMineCountUpDown.InterceptArrowKeys = false;
-            this.customMineCountUpDown.Location = new System.Drawing.Point(211, 232);
+            this.customMineCountUpDown.Location = new System.Drawing.Point(178, 19);
             this.customMineCountUpDown.Maximum = new decimal(new int[] {
             2147483647,
             0,
@@ -218,18 +215,18 @@
             // 
             // customMineCountLabel
             // 
-            this.customMineCountLabel.AutoSize = true;
-            this.customMineCountLabel.Location = new System.Drawing.Point(211, 216);
+            this.customMineCountLabel.Location = new System.Drawing.Point(176, 3);
             this.customMineCountLabel.Name = "customMineCountLabel";
-            this.customMineCountLabel.Size = new System.Drawing.Size(70, 13);
+            this.customMineCountLabel.Size = new System.Drawing.Size(80, 13);
             this.customMineCountLabel.TabIndex = 12;
             this.customMineCountLabel.Text = "Mine Number";
+            this.customMineCountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // customSeedCheckBox
             // 
             this.customSeedCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.customSeedCheckBox.AutoSize = true;
-            this.customSeedCheckBox.Location = new System.Drawing.Point(110, 274);
+            this.customSeedCheckBox.Location = new System.Drawing.Point(111, 259);
             this.customSeedCheckBox.Name = "customSeedCheckBox";
             this.customSeedCheckBox.Size = new System.Drawing.Size(111, 17);
             this.customSeedCheckBox.TabIndex = 13;
@@ -241,7 +238,7 @@
             // 
             this.customSeedUpDown.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.customSeedUpDown.InterceptArrowKeys = false;
-            this.customSeedUpDown.Location = new System.Drawing.Point(125, 299);
+            this.customSeedUpDown.Location = new System.Drawing.Point(126, 282);
             this.customSeedUpDown.Maximum = new decimal(new int[] {
             2147483647,
             0,
@@ -265,7 +262,8 @@
             // exitGameButton
             // 
             this.exitGameButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.exitGameButton.Location = new System.Drawing.Point(213, 326);
+            this.exitGameButton.Location = new System.Drawing.Point(218, 308);
+            this.exitGameButton.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.exitGameButton.Name = "exitGameButton";
             this.exitGameButton.Size = new System.Drawing.Size(75, 23);
             this.exitGameButton.TabIndex = 15;
@@ -276,7 +274,8 @@
             // highScoreButton
             // 
             this.highScoreButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.highScoreButton.Location = new System.Drawing.Point(37, 327);
+            this.highScoreButton.Location = new System.Drawing.Point(42, 308);
+            this.highScoreButton.Margin = new System.Windows.Forms.Padding(3, 3, 10, 3);
             this.highScoreButton.Name = "highScoreButton";
             this.highScoreButton.Size = new System.Drawing.Size(75, 23);
             this.highScoreButton.TabIndex = 16;
@@ -284,27 +283,48 @@
             this.highScoreButton.UseVisualStyleBackColor = true;
             this.highScoreButton.Click += new System.EventHandler(this.highScoreButton_Click);
             // 
+            // difficultyGroupBox
+            // 
+            this.difficultyGroupBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.difficultyGroupBox.Controls.Add(this.beginnerRadioButton);
+            this.difficultyGroupBox.Controls.Add(this.intermediateRadioButton);
+            this.difficultyGroupBox.Controls.Add(this.expertRadioButton);
+            this.difficultyGroupBox.Controls.Add(this.customRadioButton);
+            this.difficultyGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.difficultyGroupBox.Location = new System.Drawing.Point(111, 77);
+            this.difficultyGroupBox.Name = "difficultyGroupBox";
+            this.difficultyGroupBox.Size = new System.Drawing.Size(113, 127);
+            this.difficultyGroupBox.TabIndex = 17;
+            this.difficultyGroupBox.TabStop = false;
+            this.difficultyGroupBox.Text = "Difficulty:";
+            // 
+            // customDifficultySettingsPanel
+            // 
+            this.customDifficultySettingsPanel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.customDifficultySettingsPanel.Controls.Add(this.customWidthLabel);
+            this.customDifficultySettingsPanel.Controls.Add(this.customWidthUpDown);
+            this.customDifficultySettingsPanel.Controls.Add(this.customHeightUpDown);
+            this.customDifficultySettingsPanel.Controls.Add(this.customMineCountUpDown);
+            this.customDifficultySettingsPanel.Controls.Add(this.customHeightLabel);
+            this.customDifficultySettingsPanel.Controls.Add(this.customMineCountLabel);
+            this.customDifficultySettingsPanel.Location = new System.Drawing.Point(36, 210);
+            this.customDifficultySettingsPanel.Name = "customDifficultySettingsPanel";
+            this.customDifficultySettingsPanel.Padding = new System.Windows.Forms.Padding(3);
+            this.customDifficultySettingsPanel.Size = new System.Drawing.Size(262, 45);
+            this.customDifficultySettingsPanel.TabIndex = 19;
+            // 
             // MainMenuWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 361);
+            this.ClientSize = new System.Drawing.Size(334, 341);
+            this.Controls.Add(this.customDifficultySettingsPanel);
+            this.Controls.Add(this.difficultyGroupBox);
             this.Controls.Add(this.highScoreButton);
             this.Controls.Add(this.exitGameButton);
             this.Controls.Add(this.customSeedUpDown);
             this.Controls.Add(this.customSeedCheckBox);
-            this.Controls.Add(this.customMineCountLabel);
-            this.Controls.Add(this.customMineCountUpDown);
-            this.Controls.Add(this.customHeightUpDown);
-            this.Controls.Add(this.customHeightLabel);
-            this.Controls.Add(this.customWidthLabel);
-            this.Controls.Add(this.customWidthUpDown);
-            this.Controls.Add(this.difficultyLabel);
-            this.Controls.Add(this.customRadioButton);
-            this.Controls.Add(this.expertRadioButton);
-            this.Controls.Add(this.intermediateRadioButton);
             this.Controls.Add(this.startGameButton);
-            this.Controls.Add(this.beginnerRadioButton);
             this.Controls.Add(this.mainMenuLabel);
             this.Name = "MainMenuWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -313,6 +333,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.customHeightUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.customMineCountUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.customSeedUpDown)).EndInit();
+            this.difficultyGroupBox.ResumeLayout(false);
+            this.difficultyGroupBox.PerformLayout();
+            this.customDifficultySettingsPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -326,7 +349,6 @@
             private System.Windows.Forms.RadioButton intermediateRadioButton;
             private System.Windows.Forms.RadioButton expertRadioButton;
             private System.Windows.Forms.RadioButton customRadioButton;
-            private System.Windows.Forms.Label difficultyLabel;
             private System.Windows.Forms.NumericUpDown customWidthUpDown;
             private System.Windows.Forms.Label customWidthLabel;
             private System.Windows.Forms.Label customHeightLabel;
@@ -337,6 +359,8 @@
             private System.Windows.Forms.NumericUpDown customSeedUpDown;
             private System.Windows.Forms.Button exitGameButton;
             private System.Windows.Forms.Button highScoreButton;
+            private System.Windows.Forms.GroupBox difficultyGroupBox;
+            private System.Windows.Forms.Panel customDifficultySettingsPanel;
         }
     }
 }
