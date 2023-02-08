@@ -58,6 +58,7 @@
     <Compile Include="ErrorWindow.Designer.cs">
       <DependentUpon>ErrorWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="HighScoreSystem.cs" />
     <Compile Include="MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
