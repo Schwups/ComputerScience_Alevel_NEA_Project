@@ -1,5 +1,6 @@
-﻿using Minesweeper;
-using SupportComponents;
+﻿using MinesweeperGame.SupportComponents;
+using MinesweeperGame.MinesweeperGameLogic;
+using MinesweeperGame.GameControl;
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Output
 {
     namespace MinesweeperOutput
     {
-        public partial class MinesweeperWindow : Form, Minesweeper.IGameControl
+        public partial class MinesweeperWindow : Form, IGameControl
         {
             const int buttonSize = 25;
             private bool flaggingMode;

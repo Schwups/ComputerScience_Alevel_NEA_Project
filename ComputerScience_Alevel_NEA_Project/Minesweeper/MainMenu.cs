@@ -1,6 +1,6 @@
 ﻿using Output.MinesweeperOutput;
 using Output.ErrorOutput;
-using SupportComponents;
+using MinesweeperGame.SupportComponents;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
