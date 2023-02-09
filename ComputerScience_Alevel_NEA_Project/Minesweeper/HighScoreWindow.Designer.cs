@@ -95,6 +95,7 @@
             this.highScorePanel.Name = "highScorePanel";
             this.highScorePanel.Size = new System.Drawing.Size(260, 35);
             this.highScorePanel.TabIndex = 5;
+            this.highScorePanel.Visible = false;
             // 
             // date
             // 

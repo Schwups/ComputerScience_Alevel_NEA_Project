@@ -14,8 +14,10 @@ namespace Output
     {
         public partial class HighScoreWindow : Form
         {
-            public HighScoreWindow()
+            HighScore[] highScores;
+            public HighScoreWindow(HighScore[] highScores)
             {
+                this.highScores = highScores;
                 InitializeComponent();
             }
             protected override void OnLoad(EventArgs e)

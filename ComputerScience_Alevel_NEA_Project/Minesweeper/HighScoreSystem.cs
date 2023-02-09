@@ -38,7 +38,7 @@ namespace HighScoreSystem
             public HighScore[] highScores;
         }
     }
-    struct HighScore
+    public struct HighScore
     {
         public string userName;
         public int time;
