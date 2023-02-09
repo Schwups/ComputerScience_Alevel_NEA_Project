@@ -39,9 +39,10 @@
             this.time = new System.Windows.Forms.Label();
             this.userName = new System.Windows.Forms.Label();
             this.highScoresGroupBox = new System.Windows.Forms.GroupBox();
-            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this.highScoresPanel = new System.Windows.Forms.Panel();
             this.highScorePanel.SuspendLayout();
             this.highScoresGroupBox.SuspendLayout();
+            this.highScoresPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // highScoreLabel
@@ -91,7 +92,7 @@
             this.highScorePanel.Controls.Add(this.date);
             this.highScorePanel.Controls.Add(this.time);
             this.highScorePanel.Controls.Add(this.userName);
-            this.highScorePanel.Location = new System.Drawing.Point(6, 10);
+            this.highScorePanel.Location = new System.Drawing.Point(6, 12);
             this.highScorePanel.Name = "highScorePanel";
             this.highScorePanel.Size = new System.Drawing.Size(260, 35);
             this.highScorePanel.TabIndex = 5;
@@ -132,22 +133,21 @@
             // 
             // highScoresGroupBox
             // 
-            this.highScoresGroupBox.Controls.Add(this.vScrollBar1);
-            this.highScoresGroupBox.Controls.Add(this.highScorePanel);
-            this.highScoresGroupBox.Location = new System.Drawing.Point(20, 163);
+            this.highScoresGroupBox.Controls.Add(this.highScoresPanel);
+            this.highScoresGroupBox.Location = new System.Drawing.Point(27, 163);
             this.highScoresGroupBox.Name = "highScoresGroupBox";
-            this.highScoresGroupBox.Size = new System.Drawing.Size(294, 256);
+            this.highScoresGroupBox.Size = new System.Drawing.Size(280, 259);
             this.highScoresGroupBox.TabIndex = 6;
             this.highScoresGroupBox.TabStop = false;
             // 
-            // vScrollBar1
+            // highScoresPanel
             // 
-            this.vScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.vScrollBar1.Location = new System.Drawing.Point(271, 7);
-            this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(20, 247);
-            this.vScrollBar1.TabIndex = 6;
+            this.highScoresPanel.AutoScroll = true;
+            this.highScoresPanel.Controls.Add(this.highScorePanel);
+            this.highScoresPanel.Location = new System.Drawing.Point(3, 7);
+            this.highScoresPanel.Name = "highScoresPanel";
+            this.highScoresPanel.Size = new System.Drawing.Size(274, 249);
+            this.highScoresPanel.TabIndex = 7;
             // 
             // HighScoreWindow
             // 
@@ -163,6 +163,7 @@
             this.Text = "HighScoreWindow";
             this.highScorePanel.ResumeLayout(false);
             this.highScoresGroupBox.ResumeLayout(false);
+            this.highScoresPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -178,7 +179,7 @@
             private System.Windows.Forms.Label time;
             private System.Windows.Forms.Label userName;
             private System.Windows.Forms.GroupBox highScoresGroupBox;
-            private System.Windows.Forms.VScrollBar vScrollBar1;
+            private System.Windows.Forms.Panel highScoresPanel;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Output
             protected override void OnLoad(EventArgs e)
             {
                 base.OnLoad(e);
-                AddHighScorePanels(HighScoreUtilities.GetHighScores());
+                AddHighScorePanels(highScores);
             }
 
             private void AddHighScorePanels(HighScore[] highScores)
@@ -33,8 +33,14 @@ namespace Output
                 {
                     Panel highScorePanel = CreateHighScorePanel(score);
                     highScorePanel.Location = new Point(6, 10 + (40 * count));
-                    highScoresGroupBox.Controls.Add(highScorePanel);
+                    highScorePanel.Anchor = AnchorStyles.Top;
+                    highScoresPanel.Controls.Add(highScorePanel);
                     count++;
+                }
+                if (count > 6)
+                {
+                    highScoresGroupBox.Width = highScoresGroupBox.Width + 20;
+                    highScoresPanel.Width = highScoresPanel.Width + 20;
                 }
             }
             private Panel CreateHighScorePanel(HighScore score)
@@ -75,7 +81,7 @@ namespace Output
                     Name = "userNameLabel",
                     Width = 80,
                     Height = 23,
-                    Text = score.date.Date.ToString(),
+                    Text = score.date.ToShortDateString(),
                     TextAlign = ContentAlignment.MiddleCenter,
                 };
                 highScorePanel.Controls.Add(userNameLabel);
