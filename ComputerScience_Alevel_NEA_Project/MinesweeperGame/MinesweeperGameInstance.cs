@@ -15,11 +15,9 @@ namespace MinesweeperGame
         public class MinesweeperGameInstance
         {
             private IGameControl gameController;
-            /*private*/
-            public GridTile[,] grid;
+            private GridTile[,] grid;
             private GameState gameState;
-            /*private*/
-            public GameParameters gameParameters;
+            private GameParameters gameParameters;
             private Stopwatch stopwatch;
             private bool hitMine;
             private bool gridClear;
