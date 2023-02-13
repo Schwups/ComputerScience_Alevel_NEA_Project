@@ -23,9 +23,10 @@ namespace Output
             private MinesweeperGameInstance gameInstance;
             private int minesLeft;
             private Timer timer;
-            private GameParameters gameParameters;
+            public GameParameters gameParameters { get; private set; }
             public Difficulty gameDifficulty { get; private set; }
             public long endTime { get; private set; }
+            public GameState endState { get; private set; }
 
             public MinesweeperWindow(GameParameters gameParameters)
             {
@@ -108,7 +109,6 @@ namespace Output
                 timer.Tick += new EventHandler(Timer_Tick);
 
                 timer.Start();
-                DebugDisplayGrid(gameInstance.grid);
                 gameInstance.StartGame();
             }
 
@@ -181,23 +181,11 @@ namespace Output
             {
                 gridControls.GetControlFromPosition(column, row).BackgroundImage = image;
             }
-            private void DebugDisplayGrid(GridTile[,] grid)
-            {
-                Debug.Write($"Size:{gameParameters.width} by {gameParameters.height}\nNumber of mines:{gameParameters.mineCount}\nGrid seed:{gameInstance.gameParameters.gameSeed}\n");
-                for (int y = 0; y < grid.GetLength(1); y++)
-                {
-                    for (int x = 0; x < grid.GetLength(0); x++)
-                    {
-                        Debug.Write(grid[x, y].hasMine ? "M" : grid[x, y].adjacentMineCount.ToString());
-                    }
-                    Debug.Write("\n");
-                }
-                Debug.Write("\n");
-            }
             public void DisplayResultsScreen(GameState endState, long timeTaken, Position lastClear)
             {
                 endTime = timeTaken;
-                GameOverDialogue gameOver = new GameOverDialogue(endState, timeTaken, lastClear);
+                this.endState = endState;
+                GameOverDialogue gameOver = new GameOverDialogue(this.endState, endTime, lastClear);
                 gameOver.ShowDialog();
                 gameOver.Dispose();
                 this.Close();
