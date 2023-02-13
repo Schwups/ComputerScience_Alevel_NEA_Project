@@ -12,28 +12,24 @@ namespace HighScoreSystem
     {
         const string HighScoreFileName = "HighScores";
         static readonly string jsonPath = Directory.GetCurrentDirectory() + $@"\{HighScoreFileName}.json";
-        public static void UpdateHighScores(HighScore[] highScores)
+        public static void UpdateHighScores(HighScoresArray highScores)
         {
-            if (highScores == null)
+            if (highScores.beginnerHighScores == null || highScores.intermediateHighScores == null || highScores.expertHighScores == null)
             {
-                throw new ArgumentNullException("highScores parameter was null");
+                throw new ArgumentNullException("Null highScores parameter");
             }
-            HighScoresArray highScoresArray = new HighScoresArray()
-            {
-                highScores = highScores
-            };
             FileStream fileStream = File.OpenWrite(jsonPath);
             using (StreamWriter sw = new StreamWriter(fileStream))
             {
-                sw.Write(JsonConvert.SerializeObject(highScoresArray));
+                sw.Write(JsonConvert.SerializeObject(highScores));
             }
         }
-        public static HighScore[] GetHighScores()
+        public static HighScoresArray GetHighScores()
         {
             try
             {
                 var highScoresArray = JsonConvert.DeserializeObject<HighScoresArray>(File.ReadAllText(jsonPath));
-                return highScoresArray.highScores;
+                return highScoresArray;
             }
             catch (FileNotFoundException ex)
             {
@@ -105,10 +101,12 @@ namespace HighScoreSystem
                 return arr;
             }
         }
-        private struct HighScoresArray
-        {
-            public HighScore[] highScores;
-        }
+    }
+    public struct HighScoresArray
+    {
+        public List<HighScore> beginnerHighScores;
+        public List<HighScore> intermediateHighScores;
+        public List<HighScore> expertHighScores;
     }
     public struct HighScore
     {
