@@ -33,7 +33,12 @@ namespace HighScoreSystem
             }
             catch (FileNotFoundException ex)
             {
-                throw ex;
+                return new HighScoresArray()
+                {
+                    beginnerHighScores = new List<HighScore>(),
+                    intermediateHighScores = new List<HighScore>(),
+                    expertHighScores = new List<HighScore>(),
+                };
             }
         }
         public static HighScore[] SortScoresByTime(HighScore[] array)
