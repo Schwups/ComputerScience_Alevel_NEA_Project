@@ -48,6 +48,8 @@
             this.highScoreButton = new System.Windows.Forms.Button();
             this.difficultyGroupBox = new System.Windows.Forms.GroupBox();
             this.customDifficultySettingsPanel = new System.Windows.Forms.Panel();
+            this.usernameLabel = new System.Windows.Forms.Label();
+            this.userNameTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.customWidthUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.customHeightUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.customMineCountUpDown)).BeginInit();
@@ -60,7 +62,7 @@
             // 
             this.mainMenuLabel.AutoSize = true;
             this.mainMenuLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mainMenuLabel.Location = new System.Drawing.Point(108, 34);
+            this.mainMenuLabel.Location = new System.Drawing.Point(108, 19);
             this.mainMenuLabel.Name = "mainMenuLabel";
             this.mainMenuLabel.Size = new System.Drawing.Size(119, 26);
             this.mainMenuLabel.TabIndex = 0;
@@ -313,11 +315,30 @@
             this.customDifficultySettingsPanel.Size = new System.Drawing.Size(262, 45);
             this.customDifficultySettingsPanel.TabIndex = 19;
             // 
+            // usernameLabel
+            // 
+            this.usernameLabel.AutoSize = true;
+            this.usernameLabel.Location = new System.Drawing.Point(101, 54);
+            this.usernameLabel.Name = "usernameLabel";
+            this.usernameLabel.Size = new System.Drawing.Size(58, 13);
+            this.usernameLabel.TabIndex = 20;
+            this.usernameLabel.Text = "Username:";
+            // 
+            // userNameTextBox
+            // 
+            this.userNameTextBox.Location = new System.Drawing.Point(165, 51);
+            this.userNameTextBox.Name = "userNameTextBox";
+            this.userNameTextBox.Size = new System.Drawing.Size(69, 20);
+            this.userNameTextBox.TabIndex = 21;
+            this.userNameTextBox.Text = "Unknown";
+            // 
             // MainMenuWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(334, 341);
+            this.Controls.Add(this.userNameTextBox);
+            this.Controls.Add(this.usernameLabel);
             this.Controls.Add(this.customDifficultySettingsPanel);
             this.Controls.Add(this.difficultyGroupBox);
             this.Controls.Add(this.highScoreButton);
@@ -361,6 +382,8 @@
             private System.Windows.Forms.Button highScoreButton;
             private System.Windows.Forms.GroupBox difficultyGroupBox;
             private System.Windows.Forms.Panel customDifficultySettingsPanel;
+            private System.Windows.Forms.Label usernameLabel;
+            private System.Windows.Forms.TextBox userNameTextBox;
         }
     }
 }

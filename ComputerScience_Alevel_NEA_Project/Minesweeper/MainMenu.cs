@@ -1,5 +1,7 @@
 ﻿using Output.MinesweeperOutput;
 using Output.ErrorOutput;
+using Output.HighScores;
+using HighScoreSystem;
 using MinesweeperGame.SupportComponents;
 using System;
 using System.Collections.Generic;
@@ -19,6 +21,7 @@ namespace Output
         public partial class MainMenuWindow : Form
         {
             private MinesweeperWindow gameWindow;
+            private HighScoresArray highScores;
             public MainMenuWindow()
             {
                 InitializeComponent();
@@ -28,6 +31,12 @@ namespace Output
                 base.OnLoad(e);
                 HideCustomMenu();
                 beginnerRadioButton.Checked = true;
+                highScores = HighScoreUtilities.GetHighScores();
+            }
+            protected override void OnClosed(EventArgs e)
+            {
+                base.OnClosed(e);
+                HighScoreUtilities.UpdateHighScores(highScores);
             }
             private void startGameButton_Click(object sender, EventArgs e)
             {
@@ -92,6 +101,10 @@ namespace Output
                     gameWindow = new MinesweeperWindow(gameParameters);
                     this.Hide();
                     gameWindow.ShowDialog();
+                    if (gameWindow.endState == GameState.Won)
+                    {
+                        AddHighScore(gameWindow.endTime, gameWindow.gameParameters);
+                    }
                     gameWindow.Dispose();
                     this.Show();
                 }
@@ -112,16 +125,14 @@ namespace Output
                     HideCustomMenu();
                 }
             }
-
-            const byte customMenuHeight = 50;
             private void ShowCustomMenu()
             {
-                this.Height = this.Height + customDifficultySettingsPanel.Height;
+                this.Height += customDifficultySettingsPanel.Height;
                 customDifficultySettingsPanel.Show();
             }
             private void HideCustomMenu()
             {
-                this.Height = this.Height - customDifficultySettingsPanel.Height;
+                this.Height -= customDifficultySettingsPanel.Height;
                 customDifficultySettingsPanel.Hide();
             }
 
@@ -137,9 +148,51 @@ namespace Output
                 }
             }
 
+            private void AddHighScore(long timeTaken, GameParameters gameParameters)
+            {
+                string userName = String.IsNullOrWhiteSpace(userNameTextBox.Text) ? "Unknown" : userNameTextBox.Text;
+                switch (gameParameters.gameDifficulty)
+                {
+                    case Difficulty.Beginner:
+                        highScores.beginnerHighScores.Add(
+                            new HighScore()
+                            {
+                                userName = userName,
+                                time = (int)(timeTaken / 1000),
+                                date = DateTime.Now
+                            });
+                        break;
+                    case Difficulty.Intermediate:
+                        highScores.intermediateHighScores.Add(
+                            new HighScore()
+                            {
+                                userName = userName,
+                                time = (int)(timeTaken / 1000),
+                                date = DateTime.Now
+                            });
+                        break;
+                    case Difficulty.Expert:
+                        highScores.expertHighScores.Add(
+                            new HighScore()
+                            {
+                                userName = userName,
+                                time = (int)(timeTaken / 1000),
+                                date = DateTime.Now
+                            });
+                        break;
+                    default:
+                        break;
+                }
+            }
+
             private void highScoreButton_Click(object sender, EventArgs e)
             {
-                ShowErrorWindow(new NotImplementedException("Fuck you this isnt implemented yet\nDumb Fuck"));
+
+                HighScoreWindow highScoresWindow = new HighScoreWindow(highScores);
+                this.Hide();
+                highScoresWindow.ShowDialog();
+                this.Show();
+                highScoresWindow.Dispose();
             }
             private void exitGameButton_Click(object sender, EventArgs e)
             {
