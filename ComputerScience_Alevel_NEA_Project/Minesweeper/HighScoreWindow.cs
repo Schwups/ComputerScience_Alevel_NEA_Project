@@ -14,8 +14,8 @@ namespace Output
     {
         public partial class HighScoreWindow : Form
         {
-            HighScore[] highScores;
-            public HighScoreWindow(HighScore[] highScores)
+            HighScoresArray highScores;
+            public HighScoreWindow(HighScoresArray highScores)
             {
                 this.highScores = highScores;
                 InitializeComponent();
@@ -23,11 +23,21 @@ namespace Output
             protected override void OnLoad(EventArgs e)
             {
                 base.OnLoad(e);
-                AddHighScorePanels(highScores);
+                beginnerTabPage.Controls.Add(CreateHighScorePanel(HighScoreUtilities.SortScoresByTime(highScores.beginnerHighScores.ToArray())));
+                intermediateTabPage.Controls.Add(CreateHighScorePanel(HighScoreUtilities.SortScoresByTime(highScores.intermediateHighScores.ToArray())));
+                expertTabPage.Controls.Add(CreateHighScorePanel(HighScoreUtilities.SortScoresByTime(highScores.expertHighScores.ToArray())));
             }
 
-            private void AddHighScorePanels(HighScore[] highScores)
+            private Panel CreateHighScorePanel(HighScore[] highScores)
             {
+                Panel highScoresPanel = new Panel()
+                {
+                    Location = new Point(14, 40),
+                    Width = 274,
+                    Height = 249,
+                    AutoScroll = true,
+                };
+
                 int count = 0;
                 foreach (HighScore score in highScores)
                 {
@@ -39,9 +49,9 @@ namespace Output
                 }
                 if (count > 6)
                 {
-                    highScoresGroupBox.Width = highScoresGroupBox.Width + 20;
-                    highScoresPanel.Width = highScoresPanel.Width + 20;
+                    highScoresPanel.Width += 20;
                 }
+                return highScoresPanel;
             }
             private Panel CreateHighScorePanel(HighScore score)
             {
@@ -78,7 +88,7 @@ namespace Output
                     AutoEllipsis = true,
                     AutoSize = false,
                     Location = new Point(175, 6),
-                    Name = "userNameLabel",
+                    Name = "dateLabel",
                     Width = 80,
                     Height = 23,
                     Text = score.date.ToShortDateString(),
