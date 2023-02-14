@@ -18,6 +18,7 @@ namespace Output
     {
         public partial class MinesweeperWindow : Form, IGameControl
         {
+            private TileImages tileImages = new TileImages();
             const int buttonSize = 25;
             private bool flaggingMode;
             private MinesweeperGameInstance gameInstance;
@@ -127,47 +128,47 @@ namespace Output
                         {
                             if (grid[x, y].isFlagged)
                             {
-                                SetButtonImage(x, y, Resources.FlaggedTile);
+                                SetButtonImage(x, y, tileImages.flaggedTile);
                             }
                             else
                             {
-                                SetButtonImage(x, y, Resources.HiddenTile);
+                                SetButtonImage(x, y, tileImages.hiddenTile);
                             }
                         }
                         else if (grid[x, y].hasMine)
                         {
-                            SetButtonImage(x, y, Resources.MineTile);
+                            SetButtonImage(x, y, tileImages.mineTile);
                         }
                         else
                         {
                             switch (grid[x, y].adjacentMineCount)
                             {
                                 case 0:
-                                    SetButtonImage(x, y, Resources.Tile0);
+                                    SetButtonImage(x, y, tileImages.tile0);
                                     break;
                                 case 1:
-                                    SetButtonImage(x, y, Resources.Tile1);
+                                    SetButtonImage(x, y, tileImages.tile1);
                                     break;
                                 case 2:
-                                    SetButtonImage(x, y, Resources.Tile2);
+                                    SetButtonImage(x, y, tileImages.tile2);
                                     break;
                                 case 3:
-                                    SetButtonImage(x, y, Resources.Tile3);
+                                    SetButtonImage(x, y, tileImages.tile3);
                                     break;
                                 case 4:
-                                    SetButtonImage(x, y, Resources.Tile4);
+                                    SetButtonImage(x, y, tileImages.tile4);
                                     break;
                                 case 5:
-                                    SetButtonImage(x, y, Resources.Tile5);
+                                    SetButtonImage(x, y, tileImages.tile5);
                                     break;
                                 case 6:
-                                    SetButtonImage(x, y, Resources.Tile6);
+                                    SetButtonImage(x, y, tileImages.tile6);
                                     break;
                                 case 7:
-                                    SetButtonImage(x, y, Resources.Tile7);
+                                    SetButtonImage(x, y, tileImages.tile7);
                                     break;
                                 case 8:
-                                    SetButtonImage(x, y, Resources.Tile8);
+                                    SetButtonImage(x, y, tileImages.tile8);
                                     break;
                                 default:
                                     break;
@@ -181,6 +182,69 @@ namespace Output
             {
                 gridControls.GetControlFromPosition(column, row).BackgroundImage = image;
             }
+            private class TileImages : IDisposable
+            {
+                public readonly Image emptyTile = Resources.EmptyTile;
+                public readonly Image flaggedTile = Resources.FlaggedTile;
+                public readonly Image hiddenTile = Resources.HiddenTile;
+                public readonly Image mineTile = Resources.MineTile;
+                public readonly Image tile0 = Resources.Tile0;
+                public readonly Image tile1 = Resources.Tile1;
+                public readonly Image tile2 = Resources.Tile2;
+                public readonly Image tile3 = Resources.Tile3;
+                public readonly Image tile4 = Resources.Tile4;
+                public readonly Image tile5 = Resources.Tile5;
+                public readonly Image tile6 = Resources.Tile6;
+                public readonly Image tile7 = Resources.Tile7;
+                public readonly Image tile8 = Resources.Tile8;
+
+                #region IDisposable Support
+                private bool disposedValue = false; // To detect redundant calls
+
+                protected virtual void Dispose(bool disposing)
+                {
+                    if (!disposedValue)
+                    {
+                        if (disposing)
+                        {
+                            emptyTile.Dispose();
+                            flaggedTile.Dispose();
+                            mineTile.Dispose();
+                            tile0.Dispose();
+                            tile1.Dispose();
+                            tile2.Dispose();
+                            tile3.Dispose();
+                            tile4.Dispose();
+                            tile5.Dispose();
+                            tile6.Dispose();
+                            tile7.Dispose();
+                            tile8.Dispose();
+                        }
+
+                        // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                        // TODO: set large fields to null.
+
+                        disposedValue = true;
+                    }
+                }
+
+                // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+                // ~TileImages()
+                // {
+                //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+                //   Dispose(false);
+                // }
+
+                // This code added to correctly implement the disposable pattern.
+                public void Dispose()
+                {
+                    // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+                    Dispose(true);
+                    // TODO: uncomment the following line if the finalizer is overridden above.
+                    // GC.SuppressFinalize(this);
+                }
+                #endregion
+            };
             public void DisplayResultsScreen(GameState endState, long timeTaken, Position lastClear)
             {
                 endTime = timeTaken;
@@ -227,6 +291,19 @@ namespace Output
             protected override bool ProcessCmdKey(ref Message msg, Keys keyData) // Event handler for keypress events
             {
                 return base.ProcessCmdKey(ref msg, keyData);
+            }
+
+            protected override void OnClosed(EventArgs e)
+            {
+                base.OnClosed(e);
+                for (int y = 0; y < gridControls.RowCount; y++)
+                {
+                    for (int x = 0; x < gridControls.ColumnCount; x++)
+                    {
+                        gridControls.GetControlFromPosition(x, y).BackgroundImage = null;
+                    }
+                }
+                tileImages.Dispose();
             }
         }
     }
