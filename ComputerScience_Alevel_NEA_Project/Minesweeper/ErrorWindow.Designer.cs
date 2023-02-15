@@ -41,17 +41,18 @@
             // continueButton
             // 
             this.continueButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.continueButton.Location = new System.Drawing.Point(244, 318);
+            this.continueButton.Location = new System.Drawing.Point(30, 191);
             this.continueButton.Name = "continueButton";
             this.continueButton.Size = new System.Drawing.Size(75, 23);
             this.continueButton.TabIndex = 0;
             this.continueButton.Text = "Continue";
             this.continueButton.UseVisualStyleBackColor = true;
+            this.continueButton.Visible = false;
             // 
             // abortButton
             // 
             this.abortButton.DialogResult = System.Windows.Forms.DialogResult.Abort;
-            this.abortButton.Location = new System.Drawing.Point(478, 318);
+            this.abortButton.Location = new System.Drawing.Point(105, 191);
             this.abortButton.Name = "abortButton";
             this.abortButton.Size = new System.Drawing.Size(75, 23);
             this.abortButton.TabIndex = 1;
@@ -61,20 +62,22 @@
             // errorOccouredLabel
             // 
             this.errorOccouredLabel.AutoSize = true;
-            this.errorOccouredLabel.Location = new System.Drawing.Point(339, 153);
+            this.errorOccouredLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.errorOccouredLabel.Location = new System.Drawing.Point(71, 49);
             this.errorOccouredLabel.Name = "errorOccouredLabel";
-            this.errorOccouredLabel.Size = new System.Drawing.Size(115, 13);
+            this.errorOccouredLabel.Size = new System.Drawing.Size(143, 16);
             this.errorOccouredLabel.TabIndex = 2;
             this.errorOccouredLabel.Text = "An error has occoured:";
             // 
             // errorLabel
             // 
-            this.errorLabel.AutoSize = true;
-            this.errorLabel.Location = new System.Drawing.Point(372, 223);
+            this.errorLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.errorLabel.Location = new System.Drawing.Point(12, 83);
             this.errorLabel.Name = "errorLabel";
-            this.errorLabel.Size = new System.Drawing.Size(46, 13);
+            this.errorLabel.Size = new System.Drawing.Size(250, 91);
             this.errorLabel.TabIndex = 3;
             this.errorLabel.Text = "ERROR";
+            this.errorLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // ErrorWindow
             // 
@@ -82,15 +85,19 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.abortButton;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(284, 226);
+            this.ControlBox = false;
             this.Controls.Add(this.errorLabel);
             this.Controls.Add(this.errorOccouredLabel);
             this.Controls.Add(this.abortButton);
             this.Controls.Add(this.continueButton);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ErrorWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ErrorWindow";
+            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -23,8 +23,18 @@ namespace Output
             protected override void OnLoad(EventArgs e)
             {
                 base.OnLoad(e);
-                errorLabel.Text = ex.Message;
+                if (ex is ArgumentException)
+                {
+                    ShowContinueButton();
+                }
+                errorLabel.Text = $"Object thrown by:{ex.Source}\n{ex.Message}";
                 errorToolTip.SetToolTip(errorLabel, ex.ToString());
+            }
+            private void ShowContinueButton()
+            {
+                abortButton.Location = new Point(172, 191);
+                continueButton.Location = new Point(30, 191);
+                continueButton.Show();
             }
         }
     }

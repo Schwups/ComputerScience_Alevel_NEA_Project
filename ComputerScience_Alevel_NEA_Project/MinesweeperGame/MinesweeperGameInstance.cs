@@ -53,6 +53,11 @@ namespace MinesweeperGame
             public void TakeTurn(Position selectedTile)
             {
                 lastSelectedTile = selectedTile;
+                if (selectedTile.xPosition < 0 || selectedTile.xPosition >= grid.GetLength(0)
+                || selectedTile.yPosition < 0 || selectedTile.yPosition >= grid.GetLength(1))
+                {
+                    throw new ArgumentException($"Invalid location, position ({selectedTile.xPosition},{selectedTile.yPosition} is not on grid)");
+                }
                 if (gameController.GetFlaggingMode())
                 {
                     if (grid[selectedTile.xPosition, selectedTile.yPosition].isFlagged)

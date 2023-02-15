@@ -108,7 +108,7 @@ namespace Output
                     gameWindow.Dispose();
                     this.Show();
                 }
-                catch (ArgumentException ex)
+                catch (Exception ex)
                 {
                     ShowErrorWindow(ex);                    
                 }
@@ -200,6 +200,7 @@ namespace Output
             }
             private void ShowErrorWindow(Exception ex)
             {
+                this.Show();
                 Debug.Write($"Error occoured: {ex.Message}\nMore details:{ex.ToString()}\n");
                 ErrorWindow errorWindow = new ErrorWindow(ex);
                 errorWindow.ShowDialog();
