@@ -18,16 +18,20 @@ namespace Output
     {
         public partial class MinesweeperWindow : Form, IGameControl
         {
-            private TileImages tileImages = new TileImages();
-            const int buttonSize = 25;
-            private bool flaggingMode;
-            private MinesweeperGameInstance gameInstance;
             private int minesLeft;
+            private bool flaggingMode;
             private Timer timer;
-            public GameParameters gameParameters { get; private set; }
-            public Difficulty gameDifficulty { get; private set; }
+            private TileImages tileImages = new TileImages();
+            private MinesweeperGameInstance gameInstance;
             public long endTime { get; private set; }
+            public Difficulty gameDifficulty { get; private set; }
             public GameState endState { get; private set; }
+            public GameParameters gameParameters { get; private set; }
+
+            public bool GetFlaggingMode() { return flaggingMode; }
+            public void ToggleFlaggingMode() { flaggingMode = !flaggingMode; }
+            public int GetMinesLeft() { return minesLeft; }
+            public void SetMinesLeft(int mines) { minesLeft = mines; }
 
             public MinesweeperWindow(GameParameters gameParameters)
             {
@@ -47,13 +51,15 @@ namespace Output
             protected override void OnLoad(EventArgs e)
             {
                 base.OnLoad(e);
+                const int buttonSize = 25;
 
-                // Sets default form width and height
+                // Sets form width and height
                 this.Width = (gameParameters.width * (buttonSize + 1)) + 100;
                 if (this.Width < 300) { this.Width = 300; }
                 this.Height = (gameParameters.height * (buttonSize + 1)) + 175;
                 if (this.Height < 175) { this.Height = 175; }
 
+                #region gameGrid Setup
                 // Set up code for the button grid
                 gridControls.Location = new Point(50, 100);
                 gridControls.ColumnCount = gameParameters.width;
@@ -96,27 +102,22 @@ namespace Output
                     c.MouseDown += new MouseEventHandler(this.GridTile_Click);
                 }
                 // I dont like using windows forms
+                #endregion
 
                 minesLeft = gameParameters.mineCount;
                 mineCounter.Text = minesLeft.ToString();
 
-                // Set up of timer to update clock every 500ms 
-                // (i chose 500ms instead of 1000ms to ensure the clock dosent miss a second due to rounding from ms to seconds)
+                // Timer initialisation
                 clockDisplay.Text = 0.ToString();
                 timer = new Timer
                 {
-                    Interval = 500
+                    Interval = 500 // 500ms to ensure the clock dosent miss a second due to rounding from ms to seconds
                 };
                 timer.Tick += new EventHandler(Timer_Tick);
 
                 timer.Start();
                 gameInstance.StartGame();
             }
-
-            public bool GetFlaggingMode() { return flaggingMode; }
-            public void ToggleFlaggingMode() { flaggingMode = !flaggingMode; }
-            public int GetMinesLeft() { return minesLeft; }
-            public void SetMinesLeft(int mines) { minesLeft = mines; }
 
             public void DisplayGrid(GridTile[,] grid)
             {
@@ -265,17 +266,16 @@ namespace Output
             }
             private void GridTile_Click(object sender, MouseEventArgs e) // Event handler for click events on button grid
             {
-                if (e.Button == MouseButtons.Left)
+                switch (e.Button)
                 {
-                    flaggingMode = false;
-                }
-                else if (e.Button == MouseButtons.Right)
-                {
-                    flaggingMode = true;
-                }
-                else
-                {
-                    return;
+                    case MouseButtons.Left:
+                        flaggingMode = false;
+                        break;
+                    case MouseButtons.Right:
+                        flaggingMode = true;
+                        break;
+                    default:
+                        return;
                 }
                 Position clickedPosition = new Position()
                 {
@@ -293,10 +293,10 @@ namespace Output
                 return base.ProcessCmdKey(ref msg, keyData);
             }
 
-            protected override void OnClosed(EventArgs e)
+            protected override void OnClosed(EventArgs e) // Method that runs when game is closed
             {
                 base.OnClosed(e);
-                for (int y = 0; y < gridControls.RowCount; y++)
+                for (int y = 0; y < gridControls.RowCount; y++) // Set all tile images to null
                 {
                     for (int x = 0; x < gridControls.ColumnCount; x++)
                     {
@@ -304,6 +304,10 @@ namespace Output
                     }
                 }
                 tileImages.Dispose();
+                foreach (Control control in this.Controls)
+                {
+                    control.Dispose();
+                };
             }
         }
     }
