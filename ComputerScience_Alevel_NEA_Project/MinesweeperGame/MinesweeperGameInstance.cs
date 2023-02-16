@@ -14,15 +14,15 @@ namespace MinesweeperGame
     {
         public class MinesweeperGameInstance
         {
-            private IGameControl gameController;
-            private GridTile[,] grid;
-            private GameState gameState;
-            private GameParameters gameParameters;
-            private Stopwatch stopwatch;
             private bool hitMine;
             private bool gridClear;
+            private bool firstTurn;
+            private GameState gameState;
+            private GameParameters gameParameters;
+            private GridTile[,] grid;
             private Position lastSelectedTile;
-
+            private IGameControl gameController;
+            private Stopwatch stopwatch;
             public MinesweeperGameInstance(IGameControl gameController, GameParameters gameParameters)
             {
                 this.gameController = gameController;
@@ -45,6 +45,7 @@ namespace MinesweeperGame
             public void StartGame()
             {
                 hitMine = false;
+                firstTurn = true;
                 gameState = GameState.Running;
                 stopwatch.Start();
                 gameController.DisplayGrid(grid);
@@ -90,6 +91,7 @@ namespace MinesweeperGame
                 {
                     stopwatch.Stop();
                 }
+                firstTurn = false;
                 gameController.DisplayGrid(grid);
             }
 
@@ -109,7 +111,13 @@ namespace MinesweeperGame
 
                 if (grid[position.xPosition, position.yPosition].hasMine)
                 {
-                    hitMine = true;
+                    if (!firstTurn)
+                    {
+                        hitMine = true;
+                        return;
+                    }
+                    grid[position.xPosition, position.yPosition].hasMine = false;
+                    MoveMineToTopLeft();
                     return;
                 }
 
@@ -127,6 +135,27 @@ namespace MinesweeperGame
                         }
                     }
                 }
+            }
+
+            void MoveMineToTopLeft()
+            {
+                int xcount = 0;
+                int ycount = 0;
+                bool success = false;
+                do
+                {
+                    if (!grid[xcount,ycount].hasMine)
+                    {
+                        grid[xcount, ycount].hasMine = true;
+                    }
+                    xcount++;
+                    if (xcount >= grid.GetLength(0))
+                    {
+                        xcount = 0;
+                        ycount++;
+                    }
+                    Debug.Assert(ycount < grid.GetLength(1), "Error when moving mine to top left corner, no valid placement found");
+                } while (!success);
             }
 
             bool CheckIfGridClear()
