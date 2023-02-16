@@ -24,9 +24,9 @@ namespace MinesweeperGame
                 {
                     throw new ArgumentException($"invalid mineCount:{mineCount}, must be greater than zero");
                 }
-                if (mineCount > width * height)
+                if (mineCount > (width - 1) * (height - 1))
                 {
-                    throw new ArgumentException($"invalid mineCount:{mineCount}, must be less than total tile count");
+                    throw new ArgumentException($"invalid mineCount:{mineCount}, must be less than {(width - 1) * (height - 1)} for the selected grid size");
                 }
 
                 // Set generator seed if entered or create random seed if none is supplied
