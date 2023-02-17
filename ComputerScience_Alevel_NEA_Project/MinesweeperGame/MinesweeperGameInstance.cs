@@ -147,9 +147,10 @@ namespace MinesweeperGame
                     if (!grid[xcount,ycount].hasMine)
                     {
                         grid[xcount, ycount].hasMine = true;
+                        success = true;
                     }
                     xcount++;
-                    if (xcount >= grid.GetLength(0))
+                    if (xcount > grid.GetLength(0) - 1)
                     {
                         xcount = 0;
                         ycount++;
