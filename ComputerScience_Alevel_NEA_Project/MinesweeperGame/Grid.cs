@@ -50,11 +50,23 @@ namespace MinesweeperGame
 
                 Random rnd = new Random(generatorSeed);
                 GridTile[,] grid = new GridTile[width, height];
-                HideGrid();
+                GenerateTiles();
+                //HideGrid();
                 AddMines();
                 return grid;
 
-                void HideGrid()
+                void GenerateTiles()
+                {
+                    for (int y = 0; y < grid.GetLength(1); y++)
+                    {
+                        for (int x = 0; x < grid.GetLength(0); x++)
+                        {
+                            grid[x, y] = new GridTile();
+                        }
+                    }
+                }
+
+                void HideGrid() // Method is unnecessary as the default value of a bool in C# is false, will remove in the future
                 {
                     // Sets all tiles in grid to hidden
                     for (int y = 0; y < grid.GetLength(1); y++)
