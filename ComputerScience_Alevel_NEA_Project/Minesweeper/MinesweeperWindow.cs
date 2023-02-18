@@ -119,12 +119,16 @@ namespace Output
                 gameInstance.StartGame();
             }
 
-            public void DisplayGrid(GridTile[,] grid)
+            public void DisplayGrid(GridTile[,] grid, bool gameStart)
             {
                 for (int y = 0; y < grid.GetLength(1); y++)
                 {
                     for (int x = 0; x < grid.GetLength(0); x++)
                     {
+                        if (!(grid[x,y].hasChanged || gameStart))
+                        {
+                            continue;
+                        }
                         if (!grid[x, y].isUncovered)
                         {
                             if (grid[x, y].isFlagged)

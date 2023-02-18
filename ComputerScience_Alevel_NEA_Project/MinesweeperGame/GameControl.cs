@@ -14,11 +14,12 @@ namespace MinesweeperGame
             void ToggleFlaggingMode();
             int GetMinesLeft();
             void SetMinesLeft(int mines);
-            void DisplayGrid(GridTile[,] grid);
+            void DisplayGrid(GridTile[,] grid, bool gameStart);
             void DisplayResultsScreen(GameState endState, long timeTaken, Position lastClear);
             void TakeTurn(Position selectedPosition);
         }
 
+        /*
         public class AiControlInterface : IGameControl
         {
             // The purpose of this class is to ensure that the ai isnt able to cheat by looking at where the mines are
@@ -73,5 +74,6 @@ namespace MinesweeperGame
                 throw new NotImplementedException();
             }
         }
+        */
     }
 }

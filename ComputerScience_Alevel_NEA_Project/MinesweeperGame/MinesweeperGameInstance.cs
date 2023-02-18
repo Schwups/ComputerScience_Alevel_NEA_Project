@@ -19,10 +19,11 @@ namespace MinesweeperGame
             private bool firstTurn;
             private GameState gameState;
             private GameParameters gameParameters;
-            private GridTile[,] grid;
             private Position lastSelectedTile;
             private IGameControl gameController;
+            private GridTile[,] grid;
             private Stopwatch stopwatch;
+            private List<GridTile> changedTiles;
             public MinesweeperGameInstance(IGameControl gameController, GameParameters gameParameters)
             {
                 this.gameController = gameController;
@@ -46,13 +47,19 @@ namespace MinesweeperGame
             {
                 hitMine = false;
                 firstTurn = true;
+                changedTiles = new List<GridTile>();
                 gameState = GameState.Running;
                 stopwatch.Start();
-                gameController.DisplayGrid(grid);
+                gameController.DisplayGrid(grid, true);
             }
 
             public void TakeTurn(Position selectedTile)
             {
+                foreach (GridTile tile in changedTiles)
+                {
+                    tile.hasChanged = false;
+                }
+                changedTiles.Clear();
                 lastSelectedTile = selectedTile;
                 if (selectedTile.xPosition < 0 || selectedTile.xPosition >= grid.GetLength(0)
                 || selectedTile.yPosition < 0 || selectedTile.yPosition >= grid.GetLength(1))
@@ -61,6 +68,8 @@ namespace MinesweeperGame
                 }
                 if (gameController.GetFlaggingMode())
                 {
+                    grid[selectedTile.xPosition, selectedTile.yPosition].hasChanged = true;
+                    changedTiles.Add(grid[selectedTile.xPosition, selectedTile.yPosition]);
                     if (grid[selectedTile.xPosition, selectedTile.yPosition].isFlagged)
                     {
                         grid[selectedTile.xPosition, selectedTile.yPosition].isFlagged = false;
@@ -92,7 +101,7 @@ namespace MinesweeperGame
                     stopwatch.Stop();
                 }
                 firstTurn = false;
-                gameController.DisplayGrid(grid);
+                gameController.DisplayGrid(grid, false);
             }
 
             void ClearTile(Position position)
@@ -108,6 +117,8 @@ namespace MinesweeperGame
                     return;
                 }
                 grid[position.xPosition, position.yPosition].isUncovered = true;
+                grid[position.xPosition, position.yPosition].hasChanged = true;
+                changedTiles.Add(grid[position.xPosition, position.yPosition]);
 
                 if (grid[position.xPosition, position.yPosition].hasMine)
                 {

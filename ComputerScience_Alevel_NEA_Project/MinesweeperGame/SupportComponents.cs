@@ -11,6 +11,7 @@ namespace MinesweeperGame
             public bool isUncovered;
             public bool isFlagged;
             public bool hasMine;
+            public bool hasChanged;
             public byte adjacentMineCount;
         }
         public struct GameParameters
