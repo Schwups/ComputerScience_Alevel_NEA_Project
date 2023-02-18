@@ -66,26 +66,8 @@ namespace MinesweeperGame
                 {
                     throw new ArgumentException($"Invalid location, position ({selectedTile.xPosition},{selectedTile.yPosition} is not on grid)");
                 }
-                if (gameController.GetFlaggingMode())
-                {
-                    grid[selectedTile.xPosition, selectedTile.yPosition].hasChanged = true;
-                    changedTiles.Add(grid[selectedTile.xPosition, selectedTile.yPosition]);
-                    if (grid[selectedTile.xPosition, selectedTile.yPosition].isFlagged)
-                    {
-                        grid[selectedTile.xPosition, selectedTile.yPosition].isFlagged = false;
-                        gameController.SetMinesLeft(gameController.GetMinesLeft() + 1);
-                    }
-                    else
-                    {
-                        grid[selectedTile.xPosition, selectedTile.yPosition].isFlagged = true;
-                        gameController.SetMinesLeft(gameController.GetMinesLeft() - 1);
-                    }
-                }
-                else
-                {
-                    ClearTile(selectedTile);
-                    gridClear = CheckIfGridClear();
-                }
+
+                UpdateTile(selectedTile);
 
                 if (hitMine)
                 {
@@ -104,6 +86,41 @@ namespace MinesweeperGame
                 gameController.DisplayGrid(grid, false);
             }
 
+
+            void UpdateTile(Position position)
+            {
+                if (grid[position.xPosition,position.yPosition].isUncovered)
+                {
+                    return;
+                }
+
+                if (gameController.GetFlaggingMode())
+                {
+                    Debug.Write($"Flagging tile:({position.xPosition},{position.yPosition})\n");
+                    FlagTile(position);
+                }
+                else
+                {
+                    Debug.Write($"Clearing tile:({position.xPosition},{position.yPosition})\n");
+                    ClearTile(position);
+                    gridClear = CheckIfGridClear();
+                }
+            }
+            void FlagTile(Position position)
+            {
+                grid[position.xPosition, position.yPosition].hasChanged = true;
+                changedTiles.Add(grid[position.xPosition, position.yPosition]);
+                if (grid[position.xPosition, position.yPosition].isFlagged)
+                {
+                    grid[position.xPosition, position.yPosition].isFlagged = false;
+                    gameController.SetMinesLeft(gameController.GetMinesLeft() + 1);
+                }
+                else
+                {
+                    grid[position.xPosition, position.yPosition].isFlagged = true;
+                    gameController.SetMinesLeft(gameController.GetMinesLeft() - 1);
+                }
+            }
             void ClearTile(Position position)
             {
                 if (position.xPosition < 0 || grid.GetLength(0) <= position.xPosition ||
@@ -111,12 +128,13 @@ namespace MinesweeperGame
                 {
                     return;
                 }
-
                 if (grid[position.xPosition, position.yPosition].isUncovered)
                 {
                     return;
                 }
+
                 grid[position.xPosition, position.yPosition].isUncovered = true;
+                grid[position.xPosition, position.yPosition].isFlagged = false;
                 grid[position.xPosition, position.yPosition].hasChanged = true;
                 changedTiles.Add(grid[position.xPosition, position.yPosition]);
 
