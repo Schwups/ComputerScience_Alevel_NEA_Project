@@ -6,7 +6,7 @@ namespace MinesweeperGame
 {
     namespace SupportComponents
     {
-        public struct GridTile
+        public class GridTile
         {
             public bool isUncovered;
             public bool isFlagged;
