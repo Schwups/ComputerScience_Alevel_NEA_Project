@@ -147,6 +147,17 @@ namespace MinesweeperGame
                     }
                     grid[position.xPosition, position.yPosition].hasMine = false;
                     MoveMineToTopLeft();
+                    for (int yOffset = -1; yOffset <= 1; yOffset++)
+                    {
+                        for (int xOffset = -1; xOffset <= 1; xOffset++)
+                        {
+                            if (position.xPosition + xOffset < 0 || position.xPosition + xOffset < grid.GetLength(0)
+                                || position.yPosition + yOffset < 0 || position.yPosition + yOffset < grid.GetLength(1))
+                            {
+                                grid[position.xPosition + xOffset, position.yPosition + yOffset].adjacentMineCount--;
+                            }
+                        }
+                    }
                     return;
                 }
 
@@ -168,24 +179,36 @@ namespace MinesweeperGame
 
             void MoveMineToTopLeft()
             {
-                int xcount = 0;
-                int ycount = 0;
+                int xCount = 0;
+                int yCount = 0;
                 bool success = false;
                 do
                 {
-                    if (!grid[xcount,ycount].hasMine)
+                    if (!grid[xCount,yCount].hasMine)
                     {
-                        grid[xcount, ycount].hasMine = true;
+                        grid[xCount, yCount].hasMine = true;
                         success = true;
                     }
-                    xcount++;
-                    if (xcount > grid.GetLength(0) - 1)
+                    xCount++;
+                    if (xCount > grid.GetLength(0) - 1)
                     {
-                        xcount = 0;
-                        ycount++;
+                        xCount = 0;
+                        yCount++;
                     }
-                    Debug.Assert(ycount < grid.GetLength(1), "Error when moving mine to top left corner, no valid placement found");
+                    Debug.Assert(yCount < grid.GetLength(1), "Error when moving mine to top left corner, no valid placement found");
                 } while (!success);
+                // Itterates through all tiles within a 3x3 grid centered on the entered position and increments the adjacentMineCount variable
+                for (int yOffset = -1; yOffset <= 1; yOffset++)
+                {
+                    for (int xOffset = -1; xOffset <= 1; xOffset++)
+                    {
+                        if (xCount + xOffset < 0 || grid.GetLength(0) <= xCount + xOffset
+                            || yCount + yOffset < 0 || grid.GetLength(1) <= yCount + yOffset)
+                        {
+                            grid[xCount + xOffset, yCount + yOffset].adjacentMineCount++;
+                        }
+                    }
+                }
             }
 
             bool CheckIfGridClear()
