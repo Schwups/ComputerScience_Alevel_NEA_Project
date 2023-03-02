@@ -15,17 +15,13 @@ namespace TestingPlatform
     {
         static void Main(string[] args)
         {
-            CommandLineInterface cli = new CommandLineInterface();
-            GameParameters parameters = new GameParameters() { width = 9, height = 9, mineCount = 10, gameDifficulty = Difficulty.Custom, gameSeed = "16318" };
-
-            GridTile[,] grid = GridGenerator.GenerateGrid(parameters);
-            cli.DisplayGrid(grid, false);
+            Play();
             Console.Read(); }
         static void Play()
         {
             CommandLineInterface cli = new CommandLineInterface();
             MinesweeperGameInstance game = new MinesweeperGameInstance(cli, new GameParameters()
-            { width = 9, height = 9, mineCount = 10, gameSeed = null, gameDifficulty = Difficulty.Custom });
+            { width = 9, height = 9, mineCount = 10, gameSeed = "57", gameDifficulty = Difficulty.Custom });
             game.StartGame();
             int[] selection;
 
@@ -33,7 +29,7 @@ namespace TestingPlatform
             {
                 Console.Write("Enter tile:");
                 selection = GetInput();
-                Debug.Write($"Selecting tile ({selection[0]},{selection[1]})\n");
+                Debug.Write($"Selecting tile:({selection[0]},{selection[1]})\n");
                 game.TakeTurn(new Position() { xPosition = (short)selection[0], yPosition = (short)selection[1] });
             } while (game.GetGameState() == GameState.Running);
         }
@@ -48,7 +44,6 @@ namespace TestingPlatform
     }
     class CommandLineInterface : IGameControl
     {
-        private bool cheatMode = true;
         private bool flaggingMode;
         private int minesLeft;
 
@@ -60,11 +55,16 @@ namespace TestingPlatform
         public void DisplayGrid(GridTile[,] grid, bool gameStart)
         {
             Console.Clear();
+            Console.Write("\n ");
+            if (gameStart)
+            {
+                DebugDisplayGrid(grid);
+            }
             for (int y = 0; y < grid.GetLength(1); y++)
             {
                 for (int x = 0; x < grid.GetLength(0); x++)
                 {
-                    if (!grid[x,y].isUncovered && !cheatMode)
+                    if (!grid[x,y].isUncovered)
                     {
                         Console.Write("X");
                     }
@@ -77,7 +77,20 @@ namespace TestingPlatform
                         Console.Write(grid[x, y].adjacentMineCount);
                     }
                 }
-                Console.Write("\n");
+                Console.Write("\n ");
+            }
+        }
+
+        public void DebugDisplayGrid(GridTile[,] grid)
+        {
+            Debug.Write($"Game grid:\n");
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                for (int x = 0; x < grid.GetLength(0); x++)
+                {
+                    Debug.Write(grid[x, y].hasMine ? "*" : grid[x, y].adjacentMineCount.ToString());
+                }
+                Debug.Write("\n");
             }
         }
 
