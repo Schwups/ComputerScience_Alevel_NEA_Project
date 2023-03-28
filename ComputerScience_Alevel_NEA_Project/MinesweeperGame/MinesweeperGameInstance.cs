@@ -151,11 +151,13 @@ namespace MinesweeperGame
                     {
                         for (int xOffset = -1; xOffset <= 1; xOffset++)
                         {
-                            if (position.xPosition + xOffset < 0 || position.xPosition + xOffset < grid.GetLength(0)
-                                || position.yPosition + yOffset < 0 || position.yPosition + yOffset < grid.GetLength(1))
+                            if (position.xPosition + xOffset < 0 || position.xPosition + xOffset >= grid.GetLength(0)
+                                || position.yPosition + yOffset < 0 || position.yPosition + yOffset >= grid.GetLength(1))
                             {
-                                grid[position.xPosition + xOffset, position.yPosition + yOffset].adjacentMineCount--;
+                                continue;
                             }
+                            grid[position.xPosition + xOffset, position.yPosition + yOffset].adjacentMineCount--;
+                            grid[position.xPosition + xOffset, position.yPosition + yOffset].hasChanged = true;
                         }
                     }
                     return;
@@ -189,7 +191,11 @@ namespace MinesweeperGame
                         grid[xCount, yCount].hasMine = true;
                         success = true;
                     }
-                    xCount++;
+                    else
+                    {
+                        xCount++;
+                    }
+
                     if (xCount > grid.GetLength(0) - 1)
                     {
                         xCount = 0;
@@ -205,8 +211,10 @@ namespace MinesweeperGame
                         if (xCount + xOffset < 0 || grid.GetLength(0) <= xCount + xOffset
                             || yCount + yOffset < 0 || grid.GetLength(1) <= yCount + yOffset)
                         {
-                            grid[xCount + xOffset, yCount + yOffset].adjacentMineCount++;
+                            continue;
                         }
+                        grid[xCount + xOffset, yCount + yOffset].adjacentMineCount++;
+                        grid[xCount + xOffset, yCount + yOffset].hasChanged = true;
                     }
                 }
             }
