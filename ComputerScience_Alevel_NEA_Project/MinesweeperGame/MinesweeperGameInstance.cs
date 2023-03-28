@@ -81,6 +81,7 @@ namespace MinesweeperGame
                 if (gameState != GameState.Running)
                 {
                     stopwatch.Stop();
+                    gameController.DisplayResultsScreen(gameState, stopwatch.ElapsedMilliseconds, lastSelectedTile);
                 }
                 firstTurn = false;
                 gameController.DisplayGrid(grid, false);

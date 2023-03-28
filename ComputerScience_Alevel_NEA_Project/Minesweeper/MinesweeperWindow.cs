@@ -262,11 +262,6 @@ namespace Output
             public void TakeTurn(Position selectedPosition)
             {
                 gameInstance.TakeTurn(selectedPosition);
-
-                if (gameInstance.GetGameState() != GameState.Running)
-                {
-                    DisplayResultsScreen(gameInstance.GetGameState(), gameInstance.GetClockMs(), gameInstance.GetLastSelectedTile());
-                }
             }
             private void GridTile_Click(object sender, MouseEventArgs e) // Event handler for click events on button grid
             {
