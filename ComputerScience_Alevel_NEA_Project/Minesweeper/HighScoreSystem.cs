@@ -8,10 +8,13 @@ using System.Threading.Tasks;
 
 namespace HighScoreSystem
 {
+    // Utility class to handle storage, retrieval and sorting of high scores
     class HighScoreUtilities
     {
         const string HighScoreFileName = "HighScores";
         static readonly string jsonPath = Directory.GetCurrentDirectory() + $@"\{HighScoreFileName}.json";
+
+        // Writes data from the input HighScoresArray into the Json file storing the high scores
         public static void UpdateHighScores(HighScoresArray highScores)
         {
             if (highScores.beginnerHighScores == null || highScores.intermediateHighScores == null || highScores.expertHighScores == null)
@@ -24,6 +27,7 @@ namespace HighScoreSystem
                 sw.Write(JsonConvert.SerializeObject(highScores));
             }
         }
+        // Reads data from the Json file storing the high scores and returns a HighScoresArray object with the data
         public static HighScoresArray GetHighScores()
         {
             try
@@ -41,6 +45,9 @@ namespace HighScoreSystem
                 };
             }
         }
+
+        // Merge sort algorithm to sort the high scores 
+        // into ascending order based on their time value
         public static HighScore[] SortScoresByTime(HighScore[] array)
         {
             return MergeSortAlgorithm(array, 0, array.Length - 1);
@@ -107,6 +114,8 @@ namespace HighScoreSystem
             }
         }
     }
+
+    // Structs for the high score object and the Json file structure
     public struct HighScoresArray
     {
         public List<HighScore> beginnerHighScores;

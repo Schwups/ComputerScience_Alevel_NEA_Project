@@ -15,7 +15,8 @@ namespace MinesweeperGame
                 short height = gameParameters.height;
                 int mineCount = gameParameters.mineCount;
                 string gameSeed = gameParameters.gameSeed;
-                // Ensure valid size and mine number parameters are entered
+
+                // Test to ensure all entered parameters are valid, if they arent throw an error explaining the issue
                 if (width <= 0 || height <= 0)
                 {
                     throw new ArgumentException($"Grid dimensions {width} by {height} are invalid, both values must be greater than zero");
@@ -29,7 +30,7 @@ namespace MinesweeperGame
                     throw new ArgumentException($"invalid mineCount:{mineCount}, must be less than {(width - 1) * (height - 1)} for the selected grid size");
                 }
 
-                // Set generator seed if entered or create random seed if none is supplied
+                // Check if a game seed is provided to the generator, if the input property is null then generate a new random game seed
                 int generatorSeed;
                 if (!string.IsNullOrEmpty(gameSeed))
                 {
@@ -51,12 +52,13 @@ namespace MinesweeperGame
                 Random rnd = new Random(generatorSeed);
                 GridTile[,] grid = new GridTile[width, height];
                 GenerateTiles();
-                //HideGrid();
                 AddMines();
                 return grid;
 
                 void GenerateTiles()
                 {
+                    // 2D array itterator that instantiates a grid tile 
+                    // object at every location within the grid
                     for (int y = 0; y < grid.GetLength(1); y++)
                     {
                         for (int x = 0; x < grid.GetLength(0); x++)
@@ -66,26 +68,18 @@ namespace MinesweeperGame
                     }
                 }
 
-                void HideGrid() // Method is unnecessary as the default value of a bool in C# is false, will remove in the future
-                {
-                    // Sets all tiles in grid to hidden
-                    for (int y = 0; y < grid.GetLength(1); y++)
-                    {
-                        for (int x = 0; x < grid.GetLength(0); x++)
-                        {
-                            grid[x, y].isUncovered = false;
-                        }
-                    }
-                }
                 void AddMines()
                 {
-                    // Add all mines to grid
+                    // Add mines to the grid
                     for (int i = 0; i < mineCount; i++)
                     {
                         bool validPosition = false;
                         Position pos;
                         do
                         {
+                            // Generate random position, if the position does not already contain
+                            // a mine then place the mine and increment the adjacentMineCount
+                            // variable of the surrounding tiles
                             pos.xPosition = (short)rnd.Next(grid.GetLength(0));
                             pos.yPosition = (short)rnd.Next(grid.GetLength(1));
                             if (grid[pos.xPosition, pos.yPosition].hasMine)
@@ -101,7 +95,9 @@ namespace MinesweeperGame
                 }
                 void IncrementAdjacentMineCount(Position pos)
                 {
-                    // Itterates through all tiles within a 3x3 grid centered on the entered position and increments the adjacentMineCount variable
+                    // 2D array itterator that visits every tile in a 3 by 3 
+                    // area centred on the input position and increments their
+                    // adjacentMineCount variables
                     for (int yOffset = -1; yOffset <= 1; yOffset++)
                     {
                         for (int xOffset = -1; xOffset <= 1; xOffset++)

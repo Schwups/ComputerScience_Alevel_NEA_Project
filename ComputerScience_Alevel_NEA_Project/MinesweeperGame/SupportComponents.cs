@@ -6,6 +6,7 @@ namespace MinesweeperGame
 {
     namespace SupportComponents
     {
+        // Collection of supporting classes and structs
         public class GridTile
         {
             public bool isUncovered;
@@ -21,14 +22,6 @@ namespace MinesweeperGame
             public int mineCount;
             public string gameSeed;
             public Difficulty gameDifficulty;
-            public GameParameters(short width, short height, int mineCount, string gameSeed, Difficulty gameDifficulty)
-            {
-                this.width = width;
-                this.height = height;
-                this.mineCount = mineCount;
-                this.gameSeed = gameSeed;
-                this.gameDifficulty = gameDifficulty;
-            }
         }
         public struct Position
         {

@@ -12,6 +12,8 @@ namespace Output
 {
     namespace ErrorOutput
     {
+        // Simple class to show an error window detailing the error 
+        // with an abort and if applicable continue button
         public partial class ErrorWindow : Form
         {
             private Exception ex;

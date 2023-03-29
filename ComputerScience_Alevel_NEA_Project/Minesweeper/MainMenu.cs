@@ -42,6 +42,7 @@ namespace Output
             {
                 try
                 {
+                    // Creates a game parameters object using the data provided by the main menu
                     GameParameters gameParameters;
                     string gameSeed;
                     if (customSeedCheckBox.Checked)
@@ -98,9 +99,13 @@ namespace Output
                         default:
                             throw new ArgumentException("No difficulty selected");
                     }
+
+                    // Creates a new game window and opens it
                     gameWindow = new MinesweeperWindow(gameParameters);
                     this.Hide();
                     gameWindow.ShowDialog();
+
+                    // If the game was won add a new entry to the high scores
                     if (gameWindow.endState == GameState.Won)
                     {
                         AddHighScore(gameWindow.endTime, gameWindow.gameParameters);
@@ -150,6 +155,7 @@ namespace Output
 
             private void AddHighScore(long timeTaken, GameParameters gameParameters)
             {
+                // Creates a new high score object from the input parameters.
                 string userName = String.IsNullOrWhiteSpace(userNameTextBox.Text) ? "Unknown" : userNameTextBox.Text;
                 switch (gameParameters.gameDifficulty)
                 {
@@ -187,7 +193,7 @@ namespace Output
 
             private void highScoreButton_Click(object sender, EventArgs e)
             {
-
+                // Creates and opens a high score window when the high scores button is clicked
                 HighScoreWindow highScoresWindow = new HighScoreWindow(highScores);
                 this.Hide();
                 highScoresWindow.ShowDialog();
@@ -200,6 +206,7 @@ namespace Output
             }
             private void ShowErrorWindow(Exception ex)
             {
+                // Creates and displays an error window
                 this.Show();
                 Debug.Write($"Error occoured: {ex.Message}\nMore details:{ex.ToString()}\n");
                 ErrorWindow errorWindow = new ErrorWindow(ex);

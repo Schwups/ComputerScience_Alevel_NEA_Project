@@ -10,6 +10,8 @@ namespace MinesweeperGame
     {
         public interface IGameControl
         {
+            // Interface that must be implemented in order for a class to 
+            // be able to control a minesweeper game instance
             bool GetFlaggingMode();
             void ToggleFlaggingMode();
             int GetMinesLeft();

@@ -12,6 +12,7 @@ namespace Output
 {
     namespace HighScores
     {
+        // Class to handle display of the stored high scores
         public partial class HighScoreWindow : Form
         {
             HighScoresArray highScores;
@@ -23,6 +24,8 @@ namespace Output
             protected override void OnLoad(EventArgs e)
             {
                 base.OnLoad(e);
+                // Generates a panel containing each high score for each difficulty from the input HighScoresArray object
+
                 beginnerTabPage.Controls.Add(CreateHighScorePanel(HighScoreUtilities.SortScoresByTime(highScores.beginnerHighScores.ToArray())));
                 intermediateTabPage.Controls.Add(CreateHighScorePanel(HighScoreUtilities.SortScoresByTime(highScores.intermediateHighScores.ToArray())));
                 expertTabPage.Controls.Add(CreateHighScorePanel(HighScoreUtilities.SortScoresByTime(highScores.expertHighScores.ToArray())));
@@ -30,6 +33,7 @@ namespace Output
 
             private Panel CreateHighScorePanel(HighScore[] highScores)
             {
+                // Generates a panel containing all of the high score data panels
                 Panel highScoresPanel = new Panel()
                 {
                     Location = new Point(14, 40),
@@ -55,6 +59,7 @@ namespace Output
             }
             private Panel CreateHighScorePanel(HighScore score)
             {
+                // Generates a panel containing all of the data stored by a high score object
                 Panel highScorePanel = new Panel()
                 {
                     Name = "highScorePanel",

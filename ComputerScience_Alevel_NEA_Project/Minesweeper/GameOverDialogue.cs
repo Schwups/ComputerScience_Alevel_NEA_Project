@@ -13,6 +13,9 @@ namespace Output
 {
     namespace MinesweeperOutput
     {
+        // Class handling the display of the game over window
+        // Has a label telling the player the result of the game, 
+        // a label displaying the time taken and a button to return to the main menu
         public partial class GameOverDialogue : Form
         {
             private GameState endState;
@@ -28,6 +31,8 @@ namespace Output
             protected override void OnLoad(EventArgs e)
             {
                 base.OnLoad(e);
+
+                // Sets the result text depending on the ending result of the game
                 if (endState == GameState.Won)
                 {
                     endMessage.Text = "Congratulations!\nYou cleared all the mines!";

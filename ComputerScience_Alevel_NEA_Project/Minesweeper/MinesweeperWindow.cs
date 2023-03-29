@@ -16,8 +16,10 @@ namespace Output
 {
     namespace MinesweeperOutput
     {
+        // Class that handles the control of a minesweeper game instance
         public partial class MinesweeperWindow : Form, IGameControl
         {
+            // Class properties
             private int minesLeft;
             private bool flaggingMode;
             private Timer timer;
@@ -28,17 +30,19 @@ namespace Output
             public GameState endState { get; private set; }
             public GameParameters gameParameters { get; private set; }
 
+            // Property getters and setters
             public bool GetFlaggingMode() { return flaggingMode; }
             public void ToggleFlaggingMode() { flaggingMode = !flaggingMode; }
             public int GetMinesLeft() { return minesLeft; }
             public void SetMinesLeft(int mines) { minesLeft = mines; }
 
+            // Constructor
             public MinesweeperWindow(GameParameters gameParameters)
             {
+                // Initialises window and instantiates a MineSweeperGameInstance object
+                Debug.IndentSize = 2;
                 InitializeComponent();
                 this.gameParameters = gameParameters;
-
-                // Creation of game instance
                 try
                 {
                     gameInstance = new MinesweeperGameInstance(this, gameParameters);
@@ -50,6 +54,7 @@ namespace Output
             }
             protected override void OnLoad(EventArgs e)
             {
+                // Initialisation code for the game controls
                 base.OnLoad(e);
                 const int buttonSize = 25;
 
@@ -59,8 +64,9 @@ namespace Output
                 this.Height = (gameParameters.height * (buttonSize + 1)) + 175;
                 if (this.Height < 175) { this.Height = 175; }
 
+                // Initialisation code for the clickable grid
                 #region gameGrid Setup
-                // Set up code for the button grid
+                // Set up of the grid button table layout panel 
                 gridControls.Location = new Point(50, 100);
                 gridControls.ColumnCount = gameParameters.width;
                 gridControls.RowCount = gameParameters.height;
@@ -81,6 +87,8 @@ namespace Output
                 {
                     gridControls.RowStyles.Add(new RowStyle(SizeType.Percent, gameParameters.height / 100));
                 }
+
+                // Itterates through each tile on the grid and creates a new button
                 for (int i = 0; i < gameParameters.height; i++)
                 {
                     for (int j = 0; j < gameParameters.width; j++)
@@ -97,6 +105,7 @@ namespace Output
                         gridControls.Controls.Add(button, j, i);
                     }
                 }
+                // Adds a mouse click event handler for each of the grid buttons
                 foreach (Control c in gridControls.Controls)
                 {
                     c.MouseDown += new MouseEventHandler(this.GridTile_Click);
@@ -107,7 +116,7 @@ namespace Output
                 minesLeft = gameParameters.mineCount;
                 mineCounter.Text = minesLeft.ToString();
 
-                // Timer initialisation
+                // Initialisation of the timer
                 clockDisplay.Text = 0.ToString();
                 timer = new Timer
                 {
@@ -115,16 +124,24 @@ namespace Output
                 };
                 timer.Tick += new EventHandler(Timer_Tick);
 
+                // Starts timer and game
                 timer.Start();
                 gameInstance.StartGame();
             }
 
+            // Code handling the updating of the display grid
             public void DisplayGrid(GridTile[,] grid, bool gameStart)
             {
+                Debug.WriteIf(gameStart, $"\nGrid with seed {gameParameters.gameSeed}\n  ");
+                Debug.Indent();
+
+                // 2D array itterator that visits every tile on the game grid 
+                // and updates the display grid to match the tiles state
                 for (int y = 0; y < grid.GetLength(1); y++)
                 {
                     for (int x = 0; x < grid.GetLength(0); x++)
                     {
+                        Debug.WriteIf(gameStart, (grid[x, y].hasMine ? "*" : grid[x, y].adjacentMineCount.ToString()).PadRight(2));
                         if (!(grid[x,y].hasChanged || gameStart))
                         {
                             continue;
@@ -180,13 +197,84 @@ namespace Output
                             }
                         }
                     }
+                    Debug.WriteIf(gameStart, "\n  ");
                 }
+                Debug.Unindent();
+                Debug.WriteIf(gameStart, "\n");
                 mineCounter.Text = minesLeft.ToString();
             }
             private void SetButtonImage(int column, int row, Image image)
             {
+                // Sets the image of the specified grid button to the input image
                 gridControls.GetControlFromPosition(column, row).BackgroundImage = image;
             }
+            public void DisplayResultsScreen(GameState endState, long timeTaken, Position lastClear)
+            {
+                // Creates and opens a game over screen
+                endTime = timeTaken;
+                this.endState = endState;
+                GameOverDialogue gameOver = new GameOverDialogue(this.endState, endTime, lastClear);
+                gameOver.ShowDialog();
+                gameOver.Dispose();
+                this.Close();
+            }
+            public void TakeTurn(Position selectedPosition)
+            {
+                gameInstance.TakeTurn(selectedPosition);
+            }
+            private void GridTile_Click(object sender, MouseEventArgs e)
+            {
+                // Event handler for mouse click events on the game grid
+                switch (e.Button)
+                {
+                    // Sets the flagging mode based on which mouse button is pressed
+                    case MouseButtons.Left:
+                        flaggingMode = false;
+                        break;
+                    case MouseButtons.Right:
+                        flaggingMode = true;
+                        break;
+                    default:
+                        return;
+                }
+                Position clickedPosition = new Position()
+                {
+                    xPosition = (short)gridControls.GetColumn((Control)sender),
+                    yPosition = (short)gridControls.GetRow((Control)sender)
+                };
+                TakeTurn(clickedPosition);
+            }
+            private void Timer_Tick(object sender, EventArgs e) 
+            {
+                // Event handler for timer to update the clock display every timer tick
+                clockDisplay.Text = (gameInstance.GetClockMs() / 1000).ToString();
+            }
+            protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+            {
+                // Event handler for keyboard keypress events
+                return base.ProcessCmdKey(ref msg, keyData);
+            }
+
+            protected override void OnClosed(EventArgs e) 
+            {
+                // Runs on closing of game window, 
+                // sets all grid images to null and disposes all controls
+                base.OnClosed(e);
+                for (int y = 0; y < gridControls.RowCount; y++)
+                {
+                    for (int x = 0; x < gridControls.ColumnCount; x++)
+                    {
+                        gridControls.GetControlFromPosition(x, y).BackgroundImage = null;
+                    }
+                }
+                tileImages.Dispose();
+                foreach (Control control in this.Controls)
+                {
+                    control.Dispose();
+                };
+            }
+
+            // Class to hold all of the required tile images
             private class TileImages : IDisposable
             {
                 public readonly Image emptyTile = Resources.EmptyTile;
@@ -250,64 +338,6 @@ namespace Output
                 }
                 #endregion
             };
-            public void DisplayResultsScreen(GameState endState, long timeTaken, Position lastClear)
-            {
-                endTime = timeTaken;
-                this.endState = endState;
-                GameOverDialogue gameOver = new GameOverDialogue(this.endState, endTime, lastClear);
-                gameOver.ShowDialog();
-                gameOver.Dispose();
-                this.Close();
-            }
-            public void TakeTurn(Position selectedPosition)
-            {
-                gameInstance.TakeTurn(selectedPosition);
-            }
-            private void GridTile_Click(object sender, MouseEventArgs e) // Event handler for click events on button grid
-            {
-                switch (e.Button)
-                {
-                    case MouseButtons.Left:
-                        flaggingMode = false;
-                        break;
-                    case MouseButtons.Right:
-                        flaggingMode = true;
-                        break;
-                    default:
-                        return;
-                }
-                Position clickedPosition = new Position()
-                {
-                    xPosition = (short)gridControls.GetColumn((Control)sender),
-                    yPosition = (short)gridControls.GetRow((Control)sender)
-                };
-                TakeTurn(clickedPosition);
-            }
-            private void Timer_Tick(object sender, EventArgs e) // Event handler for timer
-            {
-                clockDisplay.Text = (gameInstance.GetClockMs() / 1000).ToString();
-            }
-            protected override bool ProcessCmdKey(ref Message msg, Keys keyData) // Event handler for keypress events
-            {
-                return base.ProcessCmdKey(ref msg, keyData);
-            }
-
-            protected override void OnClosed(EventArgs e) // Method that runs when game is closed
-            {
-                base.OnClosed(e);
-                for (int y = 0; y < gridControls.RowCount; y++) // Set all tile images to null
-                {
-                    for (int x = 0; x < gridControls.ColumnCount; x++)
-                    {
-                        gridControls.GetControlFromPosition(x, y).BackgroundImage = null;
-                    }
-                }
-                tileImages.Dispose();
-                foreach (Control control in this.Controls)
-                {
-                    control.Dispose();
-                };
-            }
         }
     }
 }
