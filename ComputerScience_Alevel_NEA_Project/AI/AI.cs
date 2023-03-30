@@ -168,7 +168,7 @@ namespace MinesweeperAI
             if (firstTurn)
             {
                 Debug.Write("[AI] making random guess for first turn\n");
-                RandomGuess();
+                RandomGuess(firstTurn);
                 firstTurn = false;
                 return;
             }
@@ -181,7 +181,7 @@ namespace MinesweeperAI
             }
 
             Debug.Write("[AI] no logical move found ");
-            // Code to call the CSM solver
+            // Code to call the CSP solver
             //int hiddenCorners = 0;
             //hiddenCorners += (internalGrid[0, 0].isUncovered
             //                || internalGrid[0, 0].isFlagged ? 0 : 1);
@@ -209,7 +209,7 @@ namespace MinesweeperAI
             //}
 
             Debug.Write("[AI] failed to find move resorting to guessing\n");
-            RandomGuess();
+            RandomGuess(firstTurn);
         }
         private void FlagTile(Position selectedPosition)
         {
@@ -277,14 +277,19 @@ namespace MinesweeperAI
                 }
             }
         }
-        private void RandomGuess()
+        private void RandomGuess(bool firstTurn)
         {
             // First guess is not actually random, the first click will never be a mine and the corners
             // are statistically less likely to contain mines, so we check the corners first
+            if (firstTurn)
+            {
+                Debug.Write("AI Guessing central Tile\n");
+                ClearTile(new Position() { xPosition = (short)(internalGrid.GetLength(0) / 2), yPosition = (short)(internalGrid.GetLength(1) / 2) });
+                return;
+            }
+
             Debug.Write("AI Guessing Tile:");
             int hiddenCorners = 0;
-            hiddenCorners += (internalGrid[0, 0].isUncovered 
-                            || internalGrid[0, 0].isFlagged ? 0 : 1);
             hiddenCorners += (internalGrid[internalGrid.GetLength(0) - 1, 0].isUncovered 
                             || internalGrid[internalGrid.GetLength(0) - 1, 0].isFlagged ? 0 : 1);
             hiddenCorners += (internalGrid[0, internalGrid.GetLength(1) - 1].isUncovered 
@@ -305,7 +310,7 @@ namespace MinesweeperAI
                     }
                 } while (!foundHiddenTile);
                 Debug.Write($"Complete guess:{randomPosition.xPosition},{randomPosition.yPosition}\n");
-                TakeTurn(randomPosition);
+                ClearTile(randomPosition);
                 return;
             }
 
@@ -313,12 +318,8 @@ namespace MinesweeperAI
             Position randomCorner = new Position();
             do
             {
-                switch (random.Next(0, 4))
+                switch (random.Next(1, 4))
                 {
-                    case 0:
-                        randomCorner.xPosition = 0;
-                        randomCorner.yPosition = 0;
-                        break;
                     case 1:
                         randomCorner.xPosition = (short)(internalGrid.GetLength(0) - 1);
                         randomCorner.yPosition = 0;
@@ -338,13 +339,13 @@ namespace MinesweeperAI
                 }
             } while (!foundHiddenCorner);
             Debug.Write($"Corner at:{randomCorner.xPosition},{randomCorner.yPosition}\n");
-            TakeTurn(randomCorner);
+            ClearTile(randomCorner);
             return;
         }
 
         private void RunSolver()
         {
-            // Code to run the CSM Solver
+            // Code to run the CSP Solver
             // Unfortunatley does not work however time constraints mean code will remain unfinished
             int prevDepth = 0;
             bool decending = false;
