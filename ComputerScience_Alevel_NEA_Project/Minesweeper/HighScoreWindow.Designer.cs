@@ -49,6 +49,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.returnButton = new System.Windows.Forms.Button();
             this.highScorePanel.SuspendLayout();
             this.highScoresPanel.SuspendLayout();
             this.highScoreTabControl.SuspendLayout();
@@ -61,7 +62,7 @@
             // 
             this.highScoreLabel.AutoSize = true;
             this.highScoreLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.highScoreLabel.Location = new System.Drawing.Point(103, 21);
+            this.highScoreLabel.Location = new System.Drawing.Point(103, 15);
             this.highScoreLabel.Name = "highScoreLabel";
             this.highScoreLabel.Size = new System.Drawing.Size(129, 25);
             this.highScoreLabel.TabIndex = 1;
@@ -141,7 +142,7 @@
             this.beginnerTabPage.Location = new System.Drawing.Point(4, 22);
             this.beginnerTabPage.Name = "beginnerTabPage";
             this.beginnerTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.beginnerTabPage.Size = new System.Drawing.Size(306, 363);
+            this.beginnerTabPage.Size = new System.Drawing.Size(306, 299);
             this.beginnerTabPage.TabIndex = 0;
             this.beginnerTabPage.Text = "beginner";
             this.beginnerTabPage.UseVisualStyleBackColor = true;
@@ -186,7 +187,7 @@
             this.intermediateTabPage.Location = new System.Drawing.Point(4, 22);
             this.intermediateTabPage.Name = "intermediateTabPage";
             this.intermediateTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.intermediateTabPage.Size = new System.Drawing.Size(306, 363);
+            this.intermediateTabPage.Size = new System.Drawing.Size(306, 299);
             this.intermediateTabPage.TabIndex = 1;
             this.intermediateTabPage.Text = "intermediate";
             this.intermediateTabPage.UseVisualStyleBackColor = true;
@@ -267,14 +268,26 @@
             this.label6.Text = "Username";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // returnButton
+            // 
+            this.returnButton.Location = new System.Drawing.Point(112, 382);
+            this.returnButton.Name = "returnButton";
+            this.returnButton.Size = new System.Drawing.Size(110, 23);
+            this.returnButton.TabIndex = 8;
+            this.returnButton.Text = "Back to main menu";
+            this.returnButton.UseVisualStyleBackColor = true;
+            this.returnButton.Click += new System.EventHandler(this.returnButton_Click);
+            // 
             // HighScoreWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 385);
+            this.ClientSize = new System.Drawing.Size(334, 417);
+            this.Controls.Add(this.returnButton);
             this.Controls.Add(this.highScoreTabControl);
             this.Controls.Add(this.highScoreLabel);
             this.Name = "HighScoreWindow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "HighScoreWindow";
             this.highScorePanel.ResumeLayout(false);
             this.highScoresPanel.ResumeLayout(false);
@@ -307,6 +320,7 @@
             private System.Windows.Forms.Label label4;
             private System.Windows.Forms.Label label5;
             private System.Windows.Forms.Label label6;
+            private System.Windows.Forms.Button returnButton;
         }
     }
 }

@@ -104,6 +104,11 @@ namespace Output
                 highScorePanel.Controls.Add(dateLabel);
                 return highScorePanel;
             }
+
+            private void returnButton_Click(object sender, EventArgs e)
+            {
+                this.Close();
+            }
         }
     }
 }
