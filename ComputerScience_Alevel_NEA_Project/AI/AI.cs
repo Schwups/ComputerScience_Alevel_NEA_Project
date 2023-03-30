@@ -17,7 +17,7 @@ namespace MinesweeperAI
         private bool moveTaken;
         private int minesLeft;
         private GameParameters gameParameters;
-        /*private*/ public AiGridTile[,] internalGrid;
+        private AiGridTile[,] internalGrid;
         private MinesweeperGameInstance gameInstance;
         private Random random;
 
@@ -31,7 +31,7 @@ namespace MinesweeperAI
         {
             this.gameParameters = gameParameters;
             gameInstance = new MinesweeperGameInstance(this, gameParameters);
-            internalGrid = new AiGridTile[gameInstance.grid.GetLength(0), gameInstance.grid.GetLength(1)];
+            internalGrid = new AiGridTile[gameParameters.width, gameParameters.height];
             random = new Random();
             minesLeft = gameParameters.mineCount;
             firstTurn = true;
@@ -164,18 +164,51 @@ namespace MinesweeperAI
 
         public void TakeTurn()
         {
-            Debug.Write("AI Taking turn\n");
+            Debug.Write("[AI] Taking turn\n");
+            if (firstTurn)
+            {
+                Debug.Write("[AI] making random guess for first turn\n");
+                RandomGuess();
+                firstTurn = false;
+                return;
+            }
+
             LogicalSearch();
             if (moveTaken == true)
             {
                 moveTaken = false;
                 return;
             }
+
+            Debug.Write("[AI] no logical move found ");
+            int hiddenCorners = 0;
+            hiddenCorners += (internalGrid[0, 0].isUncovered
+                            || internalGrid[0, 0].isFlagged ? 0 : 1);
+            hiddenCorners += (internalGrid[internalGrid.GetLength(0) - 1, 0].isUncovered
+                            || internalGrid[internalGrid.GetLength(0) - 1, 0].isFlagged ? 0 : 1);
+            hiddenCorners += (internalGrid[0, internalGrid.GetLength(1) - 1].isUncovered
+                            || internalGrid[0, internalGrid.GetLength(1) - 1].isFlagged ? 0 : 1);
+            hiddenCorners += (internalGrid[internalGrid.GetLength(0) - 1, internalGrid.GetLength(1) - 1].isUncovered
+                            || internalGrid[internalGrid.GetLength(0) - 1, internalGrid.GetLength(1) - 1].isFlagged ? 0 : 1);
+            if (hiddenCorners > 0)
+            {
+                Debug.Write("hidden corners still found\n");
+                RandomGuess();
+                return;
+            }
             else
             {
-                Debug.Write("no simple move");
-                TakeTurn(RandomGuess());
+                Debug.Write("resorting to solver\n");
+                RunSolver();
             }
+            if (moveTaken == true)
+            {
+                moveTaken = false;
+                return;
+            }
+
+            Debug.Write("[AI] failed to find move resorting to guessing\n");
+            RandomGuess();
         }
         private void FlagTile(Position selectedPosition)
         {
@@ -243,7 +276,7 @@ namespace MinesweeperAI
                 }
             }
         }
-        private Position RandomGuess()
+        private void RandomGuess()
         {
             // First guess is not actually random, the first click will never be a mine and the corners
             // are statistically less likely to contain mines, so we check the corners first
@@ -271,7 +304,8 @@ namespace MinesweeperAI
                     }
                 } while (!foundHiddenTile);
                 Debug.Write($"Complete guess:{randomPosition.xPosition},{randomPosition.yPosition}\n");
-                return randomPosition;
+                TakeTurn(randomPosition);
+                return;
             }
 
             bool foundHiddenCorner = false;
@@ -303,11 +337,19 @@ namespace MinesweeperAI
                 }
             } while (!foundHiddenCorner);
             Debug.Write($"Corner at:{randomCorner.xPosition},{randomCorner.yPosition}\n");
-            return randomCorner;
+            TakeTurn(randomCorner);
+            return;
         }
 
-        private void Solver()
+        private void RunSolver()
         {
+            // It is currently 4 am and i am way too tired for this
+            // Code dont work, think its an issue with the recursive algorithm checking if the mine placements are valid
+            // need to look into it tomorrow but for now i need sleep
+            // 🗿
+            int prevDepth = 0;
+            bool decending = false;
+
             List<AiGridTile> hiddenTiles = new List<AiGridTile>();
             List<AiGridTile> boundaryTiles = new List<AiGridTile>();
             for (int y = 0; y < internalGrid.GetLength(1); y++)
@@ -327,10 +369,14 @@ namespace MinesweeperAI
             }
 
             List<List<AiGridTile>> sections = GetSections(boundaryTiles);
+            bool tileCleared = false;
+            double bestProbability = 0;
+            int solutionWithBestProbability = -1;
+            int tileWithBestProbability = -1;
 
             for (int i = 0; i < sections.Count; i++)
             {
-                List<bool[]> Solutions = new List<bool[]>();
+                List<bool[]> solutions = new List<bool[]>();
                 bool[,] knownMines = new bool[internalGrid.GetLength(0), internalGrid.GetLength(1)];
                 bool[,] knownSafe = new bool[internalGrid.GetLength(0), internalGrid.GetLength(1)];
                 for (int y = 0; y < internalGrid.GetLength(1); y++) // The amount of 2D array itterators in this project is insane
@@ -350,12 +396,18 @@ namespace MinesweeperAI
 
                 SolverRecurse(boundaryTiles, 0);
 
+                if (solutions.Count == 0)
+                {
+                    Debug.Write("Solver failed to find any solutions :(\n");
+                    return;
+                }
+
                 for (int j = 0; j < sections[i].Count; j++)
                 {
                     bool allMine = true;
                     bool allSafe = true;
 
-                    foreach (bool[] solution in Solutions)
+                    foreach (bool[] solution in solutions)
                     {
                         // Check to see if tile j is the same in every solution
                         // if there are any solutions where j isnt in it then it isnt a mine in all solutions
@@ -370,17 +422,122 @@ namespace MinesweeperAI
                         }
                     }
 
+                    // If tile j is a mine in every solution we know its a mine so flag it
+                    // else if tile j is safe in every solution we know its safe so clear it
                     AiGridTile tile = (sections[i])[j];
                     if (allMine)
                     {
-                        FlagTile()
+                        FlagTile(tile.location);
+                        moveTaken = true;
+                    }
+                    if (allSafe)
+                    {
+                        ClearTile(tile.location);
+                        tileCleared = true;
+                        moveTaken = true;
                     }
                 }
 
+                if (tileCleared)
+                {
+                    continue;
+                }
+
+                return;
                 void SolverRecurse(List<AiGridTile> borderTiles, int depth)
                 {
+                    int flagCount = 0;
+                    for (int y = 0; y < internalGrid.GetLength(1); y++)
+                    {
+                        for (int x = 0; x < internalGrid.GetLength(0); x++)
+                        {
+                            if (knownMines[x, y])
+                            {
+                                flagCount++;
+                            }
 
+                            if (!internalGrid[x, y].isUncovered || internalGrid[x, y].adjacentMineCount == 0 || internalGrid[x, y].adjacentMineCount == byte.MaxValue)
+                            {
+                                continue;
+                            }
+
+                            AiGridTile[] neighboringTiles = GetNeighbouringTiles(internalGrid[x, y]);
+                            int flaggedNeighbours = 0;
+                            foreach (AiGridTile tile in neighboringTiles)
+                            {
+                                if (tile.isFlagged)
+                                {
+                                    flaggedNeighbours++;
+                                }
+                            }
+
+                            if (internalGrid[x, y].adjacentMineCount < flaggedNeighbours)
+                            {
+                                // Too many surrounding tiles are flagged
+                                return;
+                            }
+                            else if (neighboringTiles.Length - flaggedNeighbours < internalGrid[x, y].adjacentMineCount)
+                            {
+                                // Too many surrounding empty tiles
+                                return;
+                            }
+                        }
+                    }
+                    if (minesLeft < flagCount)
+                    {
+                        // Too many tiles on the grid are flagged
+                        return;
+                    }
+                    // If the code makes it this far the mine placement should be allowed under the rules of Minesweeper
+
+                    if (depth == borderTiles.Count())
+                    {
+                        // If we have checked every border tile and found no invalid placements then this should be a solution
+                        bool[] solution = new bool[borderTiles.Count];
+                        for (int k = 0; k < borderTiles.Count; k++)
+                        {
+                            AiGridTile tile = borderTiles[k];
+                            solution[k] = knownMines[tile.location.xPosition, tile.location.yPosition];
+                        }
+                        solutions.Add(solution);
+                    }
+
+                    AiGridTile currentTile = borderTiles[depth];
+
+                    if (depth >= borderTiles.Count - 1)
+                    {
+                        // Hit end of borderTiles list
+                        return;
+                    }
+
+                    if (depth > prevDepth)
+                    {
+                        if (!decending)
+                        {
+                            Debug.Write("\n" + "".PadLeft(depth * 3));
+                            decending = true;
+                        }
+                        Debug.Write(depth.ToString().PadRight(3));
+                        prevDepth = depth;
+                    }
+                    else
+                    {
+                        decending = false;
+                        prevDepth = depth;
+                    }
+
+                    // Try recursing with the current tile being a mine and it being safe
+                    // Set tile as a Mine and attempt to solve
+                    knownMines[currentTile.location.xPosition, currentTile.location.yPosition] = true;
+                    SolverRecurse(borderTiles, depth + 1);
+                    knownMines[currentTile.location.xPosition, currentTile.location.yPosition] = false;
+
+                    // Set tile as safe and attempt to solve
+                    knownSafe[currentTile.location.xPosition, currentTile.location.yPosition] = true;
+                    SolverRecurse(borderTiles, depth + 1);
+                    knownSafe[currentTile.location.xPosition, currentTile.location.yPosition] = false;
                 }
+
             }
         }
 
@@ -465,7 +622,6 @@ namespace MinesweeperAI
             }
             return false;
         }
-
         public AiGridTile[] GetNeighbouringTiles(AiGridTile tile)
         {
             byte numberOfExpectedNeigbours = 8;
@@ -487,6 +643,7 @@ namespace MinesweeperAI
             Debug.Assert(neighbours.Count != numberOfExpectedNeigbours, "Error");
             return neighbours.ToArray();
         }
+
         public class AiGridTile
         {
             public bool isUncovered;
