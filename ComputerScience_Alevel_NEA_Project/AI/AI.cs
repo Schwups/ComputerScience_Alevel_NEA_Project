@@ -181,31 +181,32 @@ namespace MinesweeperAI
             }
 
             Debug.Write("[AI] no logical move found ");
-            int hiddenCorners = 0;
-            hiddenCorners += (internalGrid[0, 0].isUncovered
-                            || internalGrid[0, 0].isFlagged ? 0 : 1);
-            hiddenCorners += (internalGrid[internalGrid.GetLength(0) - 1, 0].isUncovered
-                            || internalGrid[internalGrid.GetLength(0) - 1, 0].isFlagged ? 0 : 1);
-            hiddenCorners += (internalGrid[0, internalGrid.GetLength(1) - 1].isUncovered
-                            || internalGrid[0, internalGrid.GetLength(1) - 1].isFlagged ? 0 : 1);
-            hiddenCorners += (internalGrid[internalGrid.GetLength(0) - 1, internalGrid.GetLength(1) - 1].isUncovered
-                            || internalGrid[internalGrid.GetLength(0) - 1, internalGrid.GetLength(1) - 1].isFlagged ? 0 : 1);
-            if (hiddenCorners > 0)
-            {
-                Debug.Write("hidden corners still found\n");
-                RandomGuess();
-                return;
-            }
-            else
-            {
-                Debug.Write("resorting to solver\n");
-                RunSolver();
-            }
-            if (moveTaken == true)
-            {
-                moveTaken = false;
-                return;
-            }
+            // Code to call the CSM solver
+            //int hiddenCorners = 0;
+            //hiddenCorners += (internalGrid[0, 0].isUncovered
+            //                || internalGrid[0, 0].isFlagged ? 0 : 1);
+            //hiddenCorners += (internalGrid[internalGrid.GetLength(0) - 1, 0].isUncovered
+            //                || internalGrid[internalGrid.GetLength(0) - 1, 0].isFlagged ? 0 : 1);
+            //hiddenCorners += (internalGrid[0, internalGrid.GetLength(1) - 1].isUncovered
+            //                || internalGrid[0, internalGrid.GetLength(1) - 1].isFlagged ? 0 : 1);
+            //hiddenCorners += (internalGrid[internalGrid.GetLength(0) - 1, internalGrid.GetLength(1) - 1].isUncovered
+            //                || internalGrid[internalGrid.GetLength(0) - 1, internalGrid.GetLength(1) - 1].isFlagged ? 0 : 1);
+            //if (hiddenCorners > 0)
+            //{
+            //    Debug.Write("hidden corners still found\n");
+            //    RandomGuess();
+            //    return;
+            //}
+            //else
+            //{
+            //    Debug.Write("resorting to solver\n");
+            //    RunSolver();
+            //}
+            //if (moveTaken == true)
+            //{
+            //    moveTaken = false;
+            //    return;
+            //}
 
             Debug.Write("[AI] failed to find move resorting to guessing\n");
             RandomGuess();
@@ -343,10 +344,8 @@ namespace MinesweeperAI
 
         private void RunSolver()
         {
-            // It is currently 4 am and i am way too tired for this
-            // Code dont work, think its an issue with the recursive algorithm checking if the mine placements are valid
-            // need to look into it tomorrow but for now i need sleep
-            // 🗿
+            // Code to run the CSM Solver
+            // Unfortunatley does not work however time constraints mean code will remain unfinished
             int prevDepth = 0;
             bool decending = false;
 
