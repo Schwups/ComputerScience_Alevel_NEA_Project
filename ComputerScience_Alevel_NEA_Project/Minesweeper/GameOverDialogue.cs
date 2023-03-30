@@ -39,7 +39,7 @@ namespace Output
                 }
                 else
                 {
-                    endMessage.Text = $"You fucking suck\nYou hit a mine at tile ({lastTileSelected.xPosition + 1},{lastTileSelected.yPosition + 1})";
+                    endMessage.Text = $"Oh no!\nYou hit a mine at tile ({lastTileSelected.xPosition + 1},{lastTileSelected.yPosition + 1})";
                 }
 
                 endTime.Text = (timeTaken / 1000).ToString() + " Seconds.";
